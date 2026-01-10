@@ -22,9 +22,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] Proper use of Markdown
 - [x] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
@@ -37,8 +37,8 @@ complex spreadsheet or complicated interface to work with.
 
 ![Design image](Снимок%20экрана%202026—01—10%20в%2012.39.58.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+Here is a sequence diagram that shows how to people would interact 
+the application to update and see their data.
 ```mermaid
 sequenceDiagram
     actor Bob
@@ -50,20 +50,21 @@ sequenceDiagram
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Spreadsheet-like interface for easy data entry and viewing
+- Automatic totals and summaries 
+- visual spending insights
+- category organizaton
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Three main pages: Login, Dashboard, all expenses
+- **CSS** - Spreadsheet-like styling, charts, styling that looks good on different screen sizes and uses good whitespace
+- **React** - Provides login, update of graphical data, and charts
+- **Service** - Backend service that handles data storage and authentication
+- **DB/Login** - Stores user data and credentials in MongoDB
+- **WebSocket** - live updates if user logs runs from multiple devices for collaborative use.
 
 ## 🚀 AWS deliverable
 
