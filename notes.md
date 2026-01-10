@@ -8,6 +8,63 @@
 - [Canvas](https://byu.instructure.com)
 - [MDN](https://developer.mozilla.org)
 
+# Helpful Terminal Commands
+
+| Command | Meaning |
+|--------|--------|
+| `echo` | Output the parameters of the command |
+| `cd` | Change directory |
+| `mkdir` | Make directory |
+| `rmdir` | Remove directory |
+| `rm` | Remove file(s) |
+| `mv` | Move file(s) |
+| `cp` | Copy file(s) |
+| `ls` | List files |
+| `curl` | Command-line client URL browser |
+| `grep` | Regular expression search |
+| `find` | Find files |
+| `top` | View running processes with CPU and memory usage |
+| `df` | View disk statistics |
+| `cat` | Output the contents of a file |
+| `less` | Interactively output the contents of a file |
+| `wc` | Count words in a file |
+| `ps` | View currently running processes |
+| `kill` | Kill a currently running process |
+| `sudo` | Execute a command as a super user (admin) |
+| `ssh` | Create a secure shell on a remote computer |
+| `scp` | Securely copy files to a remote computer |
+| `history` | Show the history of commands |
+| `ping` | Check if a website is up |
+| `tracert` | Trace the connections to a website |
+| `dig` | Show DNS information for a domain |
+| `man` | Look up a command in the manual |
+
+
+# Vim Keystroke Reference
+
+| Keystroke | Meaning |
+|---------|--------|
+| `:h` | Help |
+| `i` | Enter insert mode. Allows typing and deleting text. Press `ESC` to exit insert mode. No other commands work while in insert mode. |
+| `u` | Undo |
+| `CTRL-r` | Redo |
+| `gg` | Go to beginning of file |
+| `G` | Go to end of file |
+| `/` | Search for text typed after `/` |
+| `n` | Next search match |
+| `N` | Previous search match |
+| `v` | Visually select text |
+| `y` | Yank (copy) selected text to clipboard |
+| `p` | Paste clipboard |
+| `CTRL-w v` | Split window vertically |
+| `CTRL-w w` | Toggle windows |
+| `CTRL-w q` | Close current window |
+| `:e` | Open a file. Type-ahead available. Opening a directory allows navigation in the window |
+| `:w` | Write file (save) |
+| `:q` | Quit. Use `:q!` to exit without saving |
+
+
+
 ## AWS
 
 My IP address is: 54.81.96.130

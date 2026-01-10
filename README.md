@@ -1,9 +1,11 @@
-# Your startup name here
+# Spreadsheet-like Finances
 
 [My Notes](notes.md)
 
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+This application is a spreadsheet-like finances application. It allows users to create accounts, log in, and view their finances. The setup is simple
+to understand. You can see everything at a glance. When a user logs in, they will be able to see the total you have spent in the month, your remaining budget, the 
+categories that is accounting for most of your spending, as well as your monthly trend. From this page you will also be able to see a graph of your expenses over time as 
+well as a breakdown of your spending by category.
 
 > [!NOTE]
 >  This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
@@ -26,19 +28,28 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ### Elevator pitch
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+My web app brings the simplicity of a spreadsheet to personal finance. Users can log expenses, see totals, 
+and track spending trends in real time, all in a familiar, table-based interface. With intuitive charts and category breakdowns, 
+it’s easy to understand where your money goes each month and make smarter financial decisions. This web app is 
+perfect for anyone looking to track their finances and stay on top of their spending without having a 
+complex spreadsheet or complicated interface to work with.
 ### Design
 
-![Design image](placeholder.png)
+![Design image](Снимок экрана 2026—01—10 в 12.39.58.png)
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ```mermaid
 sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
+    actor Alice
+    actor Juan
+    actor Bud
+    Alice->>Server: Bud + 1
+    Server -->>Juan: Bud + 1
+    Server -->>Bud: Bud + 1
+    Juan->>Server: Alice + 1
+    Server -->>Bud: Alice + 1
+    Server -->>Alice: Alice + 1
 ```
 
 ### Key features
