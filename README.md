@@ -20,8 +20,8 @@ well as a breakdown of your spending by category.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
 - [ ] Description of key features
 - [ ] Description of how you will use each technology
 - [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
@@ -35,21 +35,17 @@ perfect for anyone looking to track their finances and stay on top of their spen
 complex spreadsheet or complicated interface to work with.
 ### Design
 
-![Design image](Снимок экрана 2026—01—10 в 12.39.58.png)
+![Design image](Снимок%20экрана%202026—01—10%20в%2012.39.58.png)
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ```mermaid
 sequenceDiagram
-    actor Alice
-    actor Juan
-    actor Bud
-    Alice->>Server: Bud + 1
-    Server -->>Juan: Bud + 1
-    Server -->>Bud: Bud + 1
-    Juan->>Server: Alice + 1
-    Server -->>Bud: Alice + 1
-    Server -->>Alice: Alice + 1
+    actor Bob
+    Bob->>Server: Login
+    Server -->>Bob: Authenticated user
+    Bob -->>Server: Update (expenses, budget, etc)
+    Server -->>Bob: Updated data
 ```
 
 ### Key features
