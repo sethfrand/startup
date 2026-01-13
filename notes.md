@@ -80,7 +80,11 @@ My elastic IP address is: 98.82.211.73
 
 ![caddy image](img.png)
 
+[link to Caddy documentation](https://caddyserver.com/docs/caddyfile)
+
 No problems worked just like it said in the [instruction](https://github.com/webprogramming260/.github/blob/main/profile/webServers/https/https.md).
+
+![visualize](img_1.png)
 
 ## HTML
 
