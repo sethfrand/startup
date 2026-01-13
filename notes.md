@@ -67,8 +67,10 @@
 
 ## AWS
 
-My IP address is: 54.81.96.130
-Launching my AMI I initially put it on a private subnet. Even though it had a public IP address and the security group was right, I wasn't able to connect to it.
+My elastic IP address is: 98.82.211.73
+
+this is the command to ssh into the server: ssh -i [key pair file] unbuntu@[ip address]
+key file is saved in keys folder
 
 ## Caddy
 
