@@ -69,8 +69,11 @@
 
 My elastic IP address is: 98.82.211.73
 
-this is the command to ssh into the server: ssh -i [key pair file] unbuntu@[ip address]
-key file is saved in keys folder
+- this is the command to ssh into the server: ssh -i [key pair file] unbuntu@[ip address]
+- key file is saved in keys folder
+- Go to EC2 dashboard to see the server
+- domain is financesheet.click
+- go to Route 53 to manage domain name and DNS records.
 
 ## Caddy
 
