@@ -86,6 +86,16 @@ No problems worked just like it said in the [instruction](https://github.com/web
 
 ![visualize](img_1.png)
 
+with caddy reverse proxy, domain is
+https://financesheet.click/
+
+
+
+### HTTPS, TLS, and certificates
+
+[link to TSL documentation](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Transport_Layer_Security)
+[link to Let's encrypt documentation](https://letsencrypt.org/how-it-works/)
+
 ## HTML
 
 This was easy. I was careful to use the correct structural elements such as header, footer, main, nav, and form. The links between the three views work great using the `a` element.
