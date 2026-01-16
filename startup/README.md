@@ -35,7 +35,7 @@ perfect for anyone looking to track their finances and stay on top of their spen
 complex spreadsheet or complicated interface to work with.
 ### Design
 
-![Design image](Снимок%20экрана%202026—01—10%20в%2012.39.58.png)
+![Design image](Снимок экрана 2026—01—10 в 12.39.58.png)
 
 Here is a sequence diagram that shows how to people would interact 
 the application to update and see their data.
