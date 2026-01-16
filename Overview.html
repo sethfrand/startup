@@ -10,13 +10,22 @@
   <body>
     <!-- Use header, main, and footer elements to give semantic structure -->
     <header>
+      <h1>Finance-Sheet</h1>
+
+      <!-- Navigation elements -->
+      <nav>
+        <!-- Menu is a semantic alternative to <ul> that represents an interaction -->
         <menu>
           <li><a href="index.html">Home</a></li>
           <li><a href="overview.html">Overview</a></li>
           <li><a href="expenses.html">Expenses</a></li>
+          <li><a href="sheets.html">All Sheets</a></li>
         </menu>
-    </header>
+      </nav>
 
+      <!-- Since we don't have the ability to style we use old style HTML to give some visual formatting -->
+      <hr />
+    </header>
     <main>
         <tr>
         <div>
@@ -44,10 +53,6 @@
                 <button>
                     <h5>Monthly trend</h5>
                     <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100"></svg>
-                </button>
-                    <button>
-                    <h5>Share expenses</h5>
-                    <svg aria-hidden="true" viewBox="0 0 1 1" height="1" width="1"></svg>
                 </button>
             </tr>
         <div>
