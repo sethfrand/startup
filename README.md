@@ -1,6 +1,6 @@
 # Spreadsheet-like Finances
 
-[My Notes](notes.md)
+[My Notes](startup/notes.md)
 
 This application is a spreadsheet-like finances application. It allows users to create accounts, log in, and view their finances. The setup is simple
 to understand. You can see everything at a glance. When a user logs in, they will be able to see the total you have spent in the month, your remaining budget, the 
@@ -35,7 +35,7 @@ perfect for anyone looking to track their finances and stay on top of their spen
 complex spreadsheet or complicated interface to work with.
 ### Design
 
-![Design image](Снимок экрана 2026—01—10 в 12.39.58.png)
+![Design image](startup/Снимок экрана 2026—01—10 в 12.39.58.png)
 
 Here is a sequence diagram that shows how to people would interact 
 the application to update and see their data.
