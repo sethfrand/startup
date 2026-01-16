@@ -70,21 +70,21 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Server deployed and accessible with custom domain name** - [My server link](https://yourdomainnamehere.click).
+- [x] **Server deployed and accessible with custom domain name** - [My server link](https://financesheet.click/).
 
 ## 🚀 HTML deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - Created a page for each part of the application.
+- [x] **Proper HTML element usage** - I mostly used tables and buttons to show where things will be.
+- [x] **Links** - All pages navigate to each other.
+- [x] **Text** - All text is placeholder text.
+- [x] **3rd party API placeholder** - I have a placeholder at the bottom of the overview page where the user will type the company to get the stock price.
+- [x] **Images** - Added logo image to the login page.
+- [x] **Login placeholder** - I used the same login template from Simon
+- [x] **DB data placeholder** - This will be the expenses page
+- [x] **WebSocket placeholder** - On the all sheets page, there is an option to share your sheet, the user can then share it with another user, they can both edit it at the same time.
 
 ## 🚀 CSS deliverable
 
