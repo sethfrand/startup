@@ -243,6 +243,26 @@ Bootstrap seems a bit like magic. It styles things nicely, but is very opinionat
 
 I did like the navbar it made it super easy to build a responsive header.
 
+
+#### CDN links for bootstrap
+ - JS	https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js
+ - CSS	https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css
+
+#### Bootstrap
+[Page Example](https://codepen.io/leesjensen/pen/JjZavjW)
+
+
+### Feature comparison
+
+| Feature          | Tailwind CSS                                      | Bootstrap                                                     |
+|------------------|---------------------------------------------------|---------------------------------------------------------------|
+| Philosophy       | Utility-first (build from primitives)             | Component-based (prebuilt UI components)                      |
+| Customization    | Highly customizable via config (`tailwind.config.js`) | Customizable but more rigid without overrides                 |
+| Design freedom   | Full control over spacing, color, layout          | Limited to pre-defined component styling                      |
+| File size        | Smaller                                           | Larger due to bundled components and styles                   |
+| Learning curve   | Steep at first as you learn native CSS            | Easy to get started                                           |
+| JS dependency    | No JS (except if using plugins)                   | Depends on jQuery (Bootstrap ≤ 4) or native JS (Bootstrap 5)  |
+
 ```html
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
