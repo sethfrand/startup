@@ -1,5 +1,75 @@
-.logo {
-  width: 400px;
-  display: block;
-  margin: 0 auto;
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 375px;
+
+
+    padding-top: 80px;
+}
+
+
+.login-logo {
+    width: 320px;
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 2rem;
+
+}
+
+.navbar {
+    height: 80px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+footer {
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+}
+
+footer a {
+    float: right;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        height: 30px;
+    }
+
+    body{
+        padding-top: 56px;
+    }
+
+    footer{
+        flex: 0 80px;
+    }
+
+    footer a{
+        float: none;
+        display: block;
+        margin-top: 4px;
+    }
 }
