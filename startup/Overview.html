@@ -1,150 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- Tell browsers not to scale the viewport automatically -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Finance-Sheet</title>
-    <link rel="icon" href="favicon.ico" />
-  </head>
-  <body>
-    <!-- Use header, main, and footer elements to give semantic structure -->
-    <header>
-      <h1>Finance-Sheet</h1>
+    <link href="favicon.ico" rel="icon"/>
+    <link href ="Overview.css" rel="stylesheet"/>
 
-      <!-- Navigation elements -->
-      <nav>
-        <!-- Menu is a semantic alternative to <ul> that represents an interaction -->
-        <menu>
-          <li><a href="expenses.html">Expenses</a></li>
-          <li><a href="sheets.html">All Sheets</a></li>
-        </menu>
-      </nav>
-      <button>Logged in as ....</button>
-      <button>Logout</button>
-      <!-- Since we don't have the ability to style we use old style HTML to give some visual formatting -->
-      <hr />
-    </header>
-    <main>
-        <tr>
+    <link
+            crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            rel="stylesheet"
+    />
+</head>
+
+<body>
+
+<header>
+    <h1>Finance-Sheet</h1>
+
+    <nav>
+        <ul>
+            <li><a href="expenses.html">Expenses</a></li>
+            <li><a href="sheets.html">All Sheets</a></li>
+        </ul>
+    </nav>
+
+    <button>Logged in as ....</button>
+    <button>Logout</button>
+
+    <hr/>
+</header>
+
+<main>
+
+    <!-- Stats Section -->
+    <section>
+
         <div>
-            <tr>
-                    <button>
-                    <h5>Total spent this month</h5>
-                    <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100"></svg>
-                    <td>$0.00</td>
-                    </button>
-                <td>
-                <button>
-                    <h5>Total budget remaining this month</h5>
-                    <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100"></svg>
-                    <td>$0.00</td>
-                </button>
-                </td>
+            <h5>Total spent this month</h5>
+            <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
+            <p>$0.00</p>
+        </div>
 
-                <td>
-                <button>
-                    <h5>Top Category</h5>
-                    <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100"></svg>
-                    <td>Some Category</td>
-                </button>
-
-                <button>
-                    <h5>Monthly trend</h5>
-                    <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100"></svg>
-                </button>
-
-
-            </tr>
         <div>
-      <h1>Expenses</h1>
+            <h5>Total budget remaining this month</h5>
+            <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
+            <p>$0.00</p>
+        </div>
 
-      <table border = 1 cellpadding = 6>
-        <thread>
+        <div>
+            <h5>Top Category</h5>
+            <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
+            <p>Some Category</p>
+        </div>
+
+        <div>
+            <h5>Monthly trend</h5>
+            <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
+        </div>
+
+    </section>
+
+    <!-- Expenses Section -->
+    <section>
+
+        <h2>Expenses</h2>
+
+        <table border="1" cellpadding="6">
+
+            <thead>
             <tr>
                 <th>Date</th>
                 <th>Description</th>
                 <th>Amount</th>
                 <th>Category</th>
             </tr>
-        </thread>
-        <tbody>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-            <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-                <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-                <tr>
-                <td>some date</td>
-                <td>some amount of money</td>
-                <td>something bought</td>
-                <td>some category</td>
-            </tr>
-        
-        </tbody>
-      </table>
-      </div>
-    </main>
+            </thead>
 
-    <footer>
-        <button>
-            <h7>View stock price for</h7>
-            <svg aria-hidden="true" viewBox="0 0 1 1" height="1" width="1"></svg>
-        </button>
-        <input type="text" placeholder="company name" />
-    <hr />
-      <span class="text-reset">Seth Frandsen</span>
-      <br />
-      <a href="https://github.com/sethfrand/startup">GitHub</a>
-    </footer>
-  </body>
+            <tbody>
+            <tr>
+                <td>some date</td>
+                <td>something bought</td>
+                <td>some amount of money</td>
+                <td>some category</td>
+            </tr>
+
+            <tr>
+                <td>some date</td>
+                <td>something bought</td>
+                <td>some amount of money</td>
+                <td>some category</td>
+            </tr>
+
+            <tr>
+                <td>some date</td>
+                <td>something bought</td>
+                <td>some amount of money</td>
+                <td>some category</td>
+            </tr>
+
+            <tr>
+                <td>some date</td>
+                <td>something bought</td>
+                <td>some amount of money</td>
+                <td>some category</td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <div>
+        <h5>View stock price for</h5>
+        <input placeholder="company name" type="text"/>
+    </div>
+
+    <hr/>
+
+    <span>Seth Frandsen</span>
+    <br/>
+    <a href="https://github.com/sethfrand/startup">GitHub</a>
+
+</footer>
+
+</body>
 </html>
