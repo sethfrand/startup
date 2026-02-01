@@ -1,0 +1,108 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 375px;
+    padding-top: 80px;
+}
+
+.login-logo {
+    width: 330px;
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    z-index: 1000;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+footer {
+    flex: 0 0 auto;
+    font-size: 0.9rem;
+}
+
+footer a {
+    float: right;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling */
+.login-form {
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-form input {
+    width: 100%;
+    padding: .5rem;
+    border-radius: 6px;
+    border: 1px solid #dadce0;
+    margin-bottom: 1rem;
+}
+
+.login-form button {
+    padding: .5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.login-form button[type="submit"] {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    margin-right: .5rem;
+}
+
+.login-form button[type="submit"]:hover {
+    background: #1557b0;
+}
+
+.login-form button[type="button"] {
+    background: white;
+    color: #1a73e8;
+    border: 1px solid #dadce0;
+}
+
+.login-form button[type="button"]:hover {
+    background: #f1f3f4;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 56px;
+    }
+
+    header {
+        height: 56px;
+    }
+
+    footer {
+        flex: 0 80px;
+    }
+
+    footer a {
+        float: none;
+        display: block;
+        margin-top: 4px;
+    }
+}
