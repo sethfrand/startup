@@ -1,108 +1,65 @@
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-width: 375px;
-    padding-top: 80px;
+/* ---------- Reset / Base ---------- */
+
+* {
+    box-sizing: border-box;
 }
 
-.login-logo {
-    width: 330px;
-    max-width: 80%;
-    height: auto;
-    margin-bottom: 1rem;
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: white;
+    color: #85ca8a;
 }
+
+/* ---------- Header ---------- */
 
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    z-index: 1000;
-}
+    background: white;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #dadce0;
 
-main {
-    flex: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* Navigation */
+
+nav ul {
+    list-style: none;
+    display: flex;
     gap: 1rem;
+    padding: 0;
+    margin: 0;
 }
 
-footer {
-    flex: 0 0 auto;
-    font-size: 0.9rem;
-}
-
-footer a {
-    float: right;
+nav a {
     text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Form styling */
-.login-form {
-    max-width: 400px;
-    width: 100%;
-}
-
-.login-form input {
-    width: 100%;
-    padding: .5rem;
-    border-radius: 6px;
-    border: 1px solid #dadce0;
-    margin-bottom: 1rem;
-}
-
-.login-form button {
-    padding: .5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
+    color: #1a73e8;
     font-weight: 500;
 }
 
-.login-form button[type="submit"] {
-    background: #1a73e8;
-    color: white;
-    border: none;
-    margin-right: .5rem;
+nav a:hover {
+    text-decoration: underline;
 }
 
-.login-form button[type="submit"]:hover {
-    background: #1557b0;
-}
+/* Header buttons */
 
-.login-form button[type="button"] {
-    background: white;
-    color: #1a73e8;
+header button {
     border: 1px solid #dadce0;
+    background: white;
+    padding: .4rem .75rem;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-.login-form button[type="button"]:hover {
+header button:hover {
     background: #f1f3f4;
-}
-
-@media (max-width: 768px) {
-    body {
-        padding-top: 56px;
-    }
-
-    header {
-        height: 56px;
-    }
-
-    footer {
-        flex: 0 80px;
-    }
-
-    footer a {
-        float: none;
-        display: block;
-        margin-top: 4px;
-    }
 }
