@@ -90,12 +90,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - All standardized to look the same across all pages.
+- [x] **Navigation elements** - There is navigation between all pages and it is standarized to look the same.
+- [x] **Responsive to window resizing** - Created a responsive design to work on mobile as well as desktop.
+- [x] **Application elements** - Created a spreadsheet design for the overview page as well as the expense page. Overview page also has different breakdown boxes.
+- [x] **Application text content** - Using the Sans-serif font for all text, for now most is placeholder text.
+- [x] **Application images** - Included a logo on the login page.
 
 ## 🚀 React part 1: Routing deliverable
 
