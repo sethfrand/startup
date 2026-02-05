@@ -58,19 +58,44 @@ header button:hover {
     background: #f1f3f4;
 }
 
-/* ---------- Table ---------- */
+/* ---------- Expenses Section ---------- */
 
-.expense-table{
-    border-collapse: collapse;
-    width: 100%
+main section:last-of-type h2 {
+    margin-bottom: 1rem;
 }
 
-.expense-table th,
-.expense-table td
-{
-    padding: 12px;
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+
+thead {
+    background: #f1f3f4;
+}
+
+th,
+td {
+    padding: .75rem;
     text-align: left;
-    border: 1px solid #ddd;
+}
+
+th {
+    font-weight: 600;
+    font-size: .85rem;
+    color: #5f6368;
+}
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+    background: #f8f9fa;
 }
 
 /* ---------- Footer ---------- */

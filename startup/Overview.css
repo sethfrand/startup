@@ -2,11 +2,11 @@
 
 * {
     box-sizing: border-box;
+    font-family: "Times New Roman";
 }
 
 body {
     margin: 0;
-    font-family: sans-serif;
     background: white;
     color: #85ca8a;
 }
