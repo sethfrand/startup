@@ -103,7 +103,7 @@ main section:first-of-type p {
 
 /* ---------- Expenses Section ---------- */
 
-main section:last-of-type h2 {
+main h2 {
     margin-bottom: 1rem;
 }
 
@@ -113,8 +113,6 @@ table {
     border-collapse: collapse;
     background: white;
     border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,.05);
 }
 
 thead {
