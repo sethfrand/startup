@@ -4,6 +4,7 @@ import './login.css';
 
 export default function Login(){
     return (
+        <div className="login-page">
         <main className="container-fluid bg-dark text-white text-center">
             <img src="../../public/logo_transparent_banner.png" alt="Finance-Sheet Logo" className="login-logo"/>
             <form action="Overiview.html" method="get">
@@ -19,5 +20,6 @@ export default function Login(){
                 <button className="btn btn-secondary" type="submit">Create</button>
             </form>
         </main>
+        </div>
     );
 }

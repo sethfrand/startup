@@ -4,7 +4,7 @@ import './app.css';
 
 
 
-import {BrowserRouter as Router, Routes, Route, NavLink, BrowserRouter} from "react-router-dom";
+import {Routes, Route, NavLink, BrowserRouter} from "react-router-dom";
 import Overview from './overview/overview';
 import Expenses from './expenses/expenses';
 import Sheets from './sheets/sheets';
@@ -26,6 +26,7 @@ export default function App() {
             </nav>
         </header>
 
+        <div className='content'>
         <Routes>
             <Route path="/" element={<Login/>} exact/>
             <Route path="/Overview" element={<Overview/>} exact/>
@@ -33,7 +34,7 @@ export default function App() {
             <Route path="/Sheets" element={<Sheets/>} exact/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
-
+        </div>
 
         <footer className="bg-dark text-white text-white-70">
             <div className="container-fluid">

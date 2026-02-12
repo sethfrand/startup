@@ -11,6 +11,13 @@
     color: #85ca8a;
 }
 
+
+.content {
+    flex: 1;
+    padding-top: 80px;
+}
+
+
 /* ---------- Header ---------- */
 
 header {
