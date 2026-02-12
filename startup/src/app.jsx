@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './app.css';
+import './main.css';
 
 
 
@@ -14,11 +14,11 @@ import Login from './login/login';
 export default function App() {
     return (
     <BrowserRouter>
-    <div className='body bg-dark text-light'>
-        <header className="container-fluid bg-dark text-white text-center py-3 position-relative">
-
-            <nav className="navbar fixed-top navbar-dark bg-dark px-3">
-                <ul className="navbar-nav flex-row gap-3 ms-auto">
+    <div>
+        <header>
+        <h1 className="nav-item"><NavLink className="nav-link" to="/">Finance Sheet</NavLink></h1>
+            <nav>
+                <ul>
                     <li className="nav-item"><NavLink className="nav-link" to="Overview">Overview</NavLink></li>
                     <li className="nav-item"><NavLink className="nav-link" to="Expenses">Expenses</NavLink></li>
                     <li className="nav-item"><NavLink className="nav-link" to="Sheets">All Sheets</NavLink></li>
@@ -26,7 +26,6 @@ export default function App() {
             </nav>
         </header>
 
-        <div className='content'>
         <Routes>
             <Route path="/" element={<Login/>} exact/>
             <Route path="/Overview" element={<Overview/>} exact/>
@@ -34,11 +33,10 @@ export default function App() {
             <Route path="/Sheets" element={<Sheets/>} exact/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
-        </div>
-
-        <footer className="bg-dark text-white text-white-70">
+        <footer>
             <div className="container-fluid">
                 <span className="text-reset">By: Seth Frandsen</span>
+                <br/>
                 <a href="https://github.com/sethfrand/startup">GitHub</a>
             </div>
         </footer>
@@ -49,4 +47,5 @@ function NotFound() {
     return (
         <div>404 Error Page not found</div>
     );
+
 }

@@ -5,9 +5,9 @@ import './login.css';
 export default function Login(){
     return (
         <div className="login-page">
-        <main className="container-fluid bg-dark text-white text-center">
+        <main>
             <img src="../../public/logo_transparent_banner.png" alt="Finance-Sheet Logo" className="login-logo"/>
-            <form action="Overiview.html" method="get">
+            <form action="Overview.html" method="get">
                 <div className="input-group mb-3">
                     <span className="input-group-text">@</span>
                     <input className="form-control" placeholder="your@email.com" type="text"/>
@@ -21,5 +21,6 @@ export default function Login(){
             </form>
         </main>
         </div>
+
     );
 }

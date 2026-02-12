@@ -5,18 +5,16 @@
     font-family: sans-serif;
 }
 
-.body {
+body {
     margin: 0;
     background: white;
     color: #85ca8a;
 }
 
-
 .content {
     flex: 1;
     padding-top: 80px;
 }
-
 
 /* ---------- Header ---------- */
 
@@ -71,6 +69,86 @@ header button:hover {
     background: #f1f3f4;
 }
 
+/* ---------- Main ---------- */
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* ---------- Stats Section ---------- */
+
+main section:first-of-type {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+main section:first-of-type > div {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+
+main section:first-of-type h5 {
+    margin: 0;
+    font-size: .9rem;
+    color: #5f6368;
+}
+
+main section:first-of-type p {
+    margin-top: .5rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+main section:first-of-type button {
+    align-items: center;
+}
+
+/* ---------- Expenses Section ---------- */
+
+main h2 {
+    margin-bottom: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+}
+
+thead {
+    background: #f1f3f4;
+}
+
+th,
+td {
+    padding: .75rem;
+    text-align: left;
+}
+
+th {
+    font-weight: 600;
+    font-size: .85rem;
+    color: #5f6368;
+}
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* ---------- Footer ---------- */
+
 footer {
     margin-top: 3rem;
     padding: 1.5rem 2rem;
@@ -96,7 +174,6 @@ footer a:hover {
 /* ---------- Mobile ---------- */
 
 @media (max-width: 768px) {
-
     header {
         flex-direction: column;
         align-items: flex-start;
