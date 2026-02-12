@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <!-- Tell browsers not to scale the viewport automatically -->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Finance-Sheet</title>
+    <link href="favicon.ico" rel="icon"/>
+
+    <link href="../main.css" rel="stylesheet"/>
+
+    <!-- including the links to bootsrap-->
+    <link
+            crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            rel="stylesheet"
+    />
+</head>
+<body class="bg-dark text-white">
+<!-- Use header, main, and footer elements to give semantic structure -->
+
+<!-- After Website comepleted, remove this header-->
+<header class="container-fluid bg-dark text-white text-center py-3 position-relative">
+
+    <nav class="navbar fixed-top navbar-dark bg-dark px-3">
+        <ul class="navbar-nav flex-row gap-3 ms-auto">
+            <li class="nav-item"><a class="nav-link" href="../overview/Overview.html">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" href="../expenses/expenses.html">Expenses</a></li>
+            <li class="nav-item"><a class="nav-link" href="../sheets/sheets.html">All Sheets</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<main class="container-fluid bg-dark text-white text-center">
+    <img src="../../public/logo_transparent_banner.png" alt="Finance-Sheet Logo" class="login-logo">
+    <form action="Overiview.html" method="get">
+        <div class="input-group mb-3">
+            <span class="input-group-text">@</span>
+            <input class="form-control" placeholder="your@email.com" type="text"/>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">🔒</span>
+            <input class="form-control" placeholder="password" type="password"/>
+        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
+        <button class="btn btn-secondary" type="submit">Create</button>
+    </form>
+</main>
+
+<footer class="bg-dark text-white text-white-70">
+    <div class = "container-fluid">
+    <span class="text-reset">By: Seth Frandsen</span>
+    <a href="https://github.com/sethfrand/startup">GitHub</a>
+    </div>
+</footer>
+</body>
+</html>
