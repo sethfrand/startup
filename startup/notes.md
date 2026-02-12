@@ -283,7 +283,7 @@ I did like the navbar it made it super easy to build a responsive header.
           <a class="nav-link" href="about.html">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Logout</a>
+          <a class="nav-link" href="src/login/login.html">Logout</a>
         </li>
       </ul>
     </div>
@@ -302,6 +302,19 @@ I also used SVG to make the icon and logo for the app. This turned out to be a p
 ```
 
 ## React Part 1: Routing
+
+### VITE
+- **`npm run dev`** bundles code to a temporary directory for the Vite debug HTTP server
+- **`npm run build`** bundles your application for production deployment
+- **Build process:**
+  - Executes the `build` script in `package.json`
+  - Invokes the Vite CLI
+  - Transpiles and minifies code
+  - Injects proper JavaScript
+  - Outputs deployment-ready files to `dist` subdirectory
+
+### React
+
 
 Setting up Vite and React was pretty simple. I had a bit of trouble because of conflicting CSS. This isn't as straight forward as you would find with Svelte or Vue, but I made it work in the end. If there was a ton of CSS it would be a real problem. It sure was nice to have the code structured in a more usable way.
 
