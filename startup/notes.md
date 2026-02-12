@@ -314,9 +314,11 @@ I also used SVG to make the icon and logo for the app. This turned out to be a p
   - Outputs deployment-ready files to `dist` subdirectory
 
 ### React
+Must have a public folder, a src folder and 
+a separate folder for each page.
 
-
-Setting up Vite and React was pretty simple. I had a bit of trouble because of conflicting CSS. This isn't as straight forward as you would find with Svelte or Vue, but I made it work in the end. If there was a ton of CSS it would be a real problem. It sure was nice to have the code structured in a more usable way.
+Had some issues with the routing and the css, the different styles were conflicting. Decided to standarize the css to match all pages. If there is time in the future, I would like 
+to fix a few more things. 
 
 ## React Part 2: Reactivity
 
