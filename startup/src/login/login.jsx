@@ -6,7 +6,7 @@ export default function Login(){
     return (
         <div className="login-page">
         <main>
-            <img src="../../public/logo_transparent_banner.png" alt="Finance-Sheet Logo" className="login-logo"/>
+            <img src="/logo_transparent_banner.png" alt="Finance-Sheet Logo" className="login-logo"/>
             <form action="Overview.html" method="get">
                 <div className="input-group mb-3">
                     <span className="input-group-text">@</span>
