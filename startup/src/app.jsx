@@ -24,6 +24,10 @@ export default function App() {
                     <li className="nav-item"><NavLink className="nav-link" to="Sheets">All Sheets</NavLink></li>
                 </ul>
             </nav>
+            <div className="ms-auto d-flex gap-2">
+                <button className="btn btn-secondary">Logged in as ....</button>
+                <button className="btn btn-primary">Logout</button>
+            </div>
         </header>
 
         <Routes>
