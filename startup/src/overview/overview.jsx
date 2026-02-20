@@ -87,7 +87,10 @@ export default function Overview(){
                 </table>
 
             </section>
-
+            <div>
+                <h5>Exchange rate</h5>
+                <input placeholder="PL" type="text"/><button>Go</button>
+            </div>
         </main>
     );
 }

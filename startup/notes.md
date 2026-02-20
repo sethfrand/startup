@@ -322,6 +322,80 @@ to fix a few more things.
 
 ## React Part 2: Reactivity
 
+### Arrow functions
+- Arrow functions are a shorthand syntax for writing functions.
+```jsx
+const a = [1, 2, 3, 4];
+
+// standard function syntax
+a.sort(function (v1, v2) {
+  return v1 - v2;
+});
+```
+- The return statement is optional when using arrow functions. 
+- Arrow functions inhert the "this" value from the surrounding code.
+  - this is called a closure
+
+### Arrays 
+| Function  | Meaning                                              | When to Use It Conceptually                                      | Example                          |
+|-----------|------------------------------------------------------|------------------------------------------------------------------|----------------------------------|
+| push      | Add an item to the end of the array                 | When you want to grow an array                                  | `a.push(4)`                     |
+| pop       | Remove an item from the end of the array            | When treating the array like a stack (LIFO)                     | `x = a.pop()`                   |
+| slice     | Return a sub-array                                  | When you want a copy of part of an array (non-destructive)      | `a.slice(1, -1)`                |
+| sort      | Sort an array in place                              | When you need items ordered (numbers, strings, objects, etc.)   | `a.sort((a, b) => b - a)`       |
+| values    | Create an iterator for a `for...of` loop            | When explicitly iterating over values                           | `for (i of a.values()) { ... }` |
+| find      | Return the first item that matches a condition      | When you need a single matching element                         | `a.find(i => i < 2)`            |
+| forEach   | Run a function on each item                         | When performing side effects (logging, modifying external vars) | `a.forEach(console.log)`        |
+| reduce    | Reduce array to a single value                      | When combining all items into one result (sum, object, etc.)    | `a.reduce((a, c) => a + c)`     |
+| map       | Create a new array by transforming each item        | When converting data to a new form                              | `a.map(i => i + i)`             |
+| filter    | Create a new array with some items removed          | When selecting items that match a condition                     | `a.filter(i => i % 2)`          |
+| every     | Test whether all items match a condition            | When validating that everything meets a rule                    | `a.every(i => i < 3)`           |
+| some      | Test whether at least one item matches              | When checking if any item meets a rule                          | `a.some(i => i < 1)`            |
+
+
+### Objects and Classes
+- Objects are unordered collections of key-value pairs.
+- Classes are used to create custom data types.
+- Somewhat similar to Java and C++ in structure but not in behavior. 
+
+### Destructuring
+example of destructuring an object with a default value:
+```jsx
+a = obj.a !== undefined ? obj.a : defaultValue
+```
+
+
+### Time and Interval
+
+```jsx
+setTimeout(() => console.log('time is up'), 2000);
+
+console.log('timeout will happen later');
+```
+
+### Hooks
+
+Exampl hooks
+- useEffect
+
+### Local Storage 
+## Local Storage Functions
+
+There are four main functions that can be used with `localStorage`.
+
+| Function | Meaning |
+|----------|----------|
+| `setItem(name, value)` | Sets a named item's value into local storage |
+| `getItem(name)` | Gets a named item's value from local storage |
+| `removeItem(name)` | Removes a named item from local storage |
+| `clear()` | Clears all items in local storage |
+
+A local storage value must be of type string, number, or boolean. If you want to store a 
+JavaScript object or array, then you must first convert it to a JSON string with JSON.stringify() on insertion, 
+and parse it back to JavaScript with JSON.parse() when retrieved.
+// arrow function syntax
+a.sort((v1, v2) => v1 - v2);
+
 This was a lot of fun to see it all come together. I had to keep remembering to use React state instead of just manipulating the DOM directly.
 
 Handling the toggling of the checkboxes was particularly interesting.
