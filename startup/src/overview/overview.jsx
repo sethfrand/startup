@@ -12,16 +12,16 @@ export default function Overview(){
             <section>
 
                 <div>
-                    <h5>Total spent this month</h5>
+                    <h5>Total Budget</h5>
                     <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
                     <p>$0.00</p>
+                    <button className="btn btn-primary">edit budget</button>
                 </div>
 
                 <div>
                     <h5>Total budget remaining this month</h5>
                     <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
                     <p>$0.00</p>
-                    <button className="btn btn-primary">edit budget</button>
                 </div>
 
                 <div>
