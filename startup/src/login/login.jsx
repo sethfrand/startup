@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 
 import './login.css';
 
-export default function Login() {
+export default function Login(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -15,6 +15,7 @@ export default function Login() {
         const existingUser = localStorage.getItem(username);
         if (existingUser) {
             navigate('/Overview');
+            props.onLogin(username);
         } else
             setErrorMessage('User does not exist');
     }
@@ -27,6 +28,7 @@ export default function Login() {
         else {
             localStorage.setItem("userName", username);
             navigate('/Overview');
+            props.onLogin(username);
         }
     }
 

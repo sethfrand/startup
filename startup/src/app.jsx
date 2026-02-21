@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useState} from  'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css';
-
 
 
 import {Routes, Route, NavLink, BrowserRouter} from "react-router-dom";
@@ -12,6 +11,16 @@ import Login from './login/login';
 
 
 export default function App() {
+    const [username, setUsername] = useState('');
+
+
+    function handleLogout() {
+        localStorage.removeItem('userName');
+        setUsername('');
+        window.location.href = '/'
+
+    }
+
     return (
     <BrowserRouter>
     <div>
@@ -25,13 +34,13 @@ export default function App() {
                 </ul>
             </nav>
             <div className="ms-auto d-flex gap-2">
-                <button className="btn btn-secondary">Logged in as ....</button>
-                <button className="btn btn-primary">Logout</button>
+                <button className="btn btn-secondary">Logged in as {username}</button>
+                <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
             </div>
         </header>
 
         <Routes>
-            <Route path="/" element={<Login/>} exact/>
+            <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
             <Route path="/Overview" element={<Overview/>} exact/>
             <Route path="/Expenses" element={<Expenses/>} exact/>
             <Route path="/Sheets" element={<Sheets/>} exact/>
