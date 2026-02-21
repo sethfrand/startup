@@ -1,27 +1,27 @@
 import React, {useEffect, useState} from 'react';
 
 import './expenses.css';
-export default function Expenses(){
+export default function Expenses(props){
 
     const [expenses, setExpenses] = useState([]);
 
 
     useEffect(() => {
-        const storedExpenses = JSON.parse(localStorage.getItem('expenses'));
+        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.username}`));
         if (storedExpenses) setExpenses(storedExpenses);
     },[]);
 
     function handleAddExpense() {
-        const updatedExpenses = [...expenses,{ date: '', description: '', amount: '', category: '' }];
-        setExpenses([...expenses, { date: '', description: '', amount: '', category: '' }]);
-        localStorage.setItem('expenses', JSON.stringify(expenses));
+        const updatedExpenses = [...expenses, { date: '', description: '', amount: '', category: '' }];
+        setExpenses(updatedExpenses);
+        localStorage.setItem(`expenses_${props.username}`, JSON.stringify(updatedExpenses));
     }
 
     function handleEditExpense(index, field, value) {
         const updatedExpenses = [...expenses];
         updatedExpenses[index][field] = value;
         setExpenses(updatedExpenses);
-        localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
+        localStorage.setItem(`expenses_${props.username}`, JSON.stringify(updatedExpenses));
     }
 
 

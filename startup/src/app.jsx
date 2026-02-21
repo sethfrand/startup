@@ -25,13 +25,13 @@ export default function App() {
     <div>
         <header>
         <h1 className="nav-item"><NavLink className="nav-link" to="/">Finance Sheet</NavLink></h1>
-            <nav>
+            {username !== '' && <nav>
                 <ul>
                     <li className="nav-item"><NavLink className="nav-link" to="Overview">Overview</NavLink></li>
                     <li className="nav-item"><NavLink className="nav-link" to="Expenses">Expenses</NavLink></li>
                     <li className="nav-item"><NavLink className="nav-link" to="Sheets">All Sheets</NavLink></li>
                 </ul>
-            </nav>
+            </nav>}
             <div className="ms-auto d-flex gap-2">
                 <button className="btn btn-secondary">Logged in as {username}</button>
                 <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
@@ -41,7 +41,7 @@ export default function App() {
         <Routes>
             <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
             <Route path="/Overview" element={<Overview/>} exact/>
-            <Route path="/Expenses" element={<Expenses/>} exact/>
+            <Route path="/Expenses" element={<Expenses username={username}/>} exact/>
             <Route path="/Sheets" element={<Sheets/>} exact/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
