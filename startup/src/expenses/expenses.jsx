@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import './expenses.css';
 export default function Expenses(){
@@ -6,14 +6,22 @@ export default function Expenses(){
     const [expenses, setExpenses] = useState([]);
 
 
+    useEffect(() => {
+        const storedExpenses = JSON.parse(localStorage.getItem('expenses'));
+        if (storedExpenses) setExpenses(storedExpenses);
+    },[]);
+
     function handleAddExpense() {
+        const updatedExpenses = [...expenses,{ date: '', description: '', amount: '', category: '' }];
         setExpenses([...expenses, { date: '', description: '', amount: '', category: '' }]);
+        localStorage.setItem('expenses', JSON.stringify(expenses));
     }
 
     function handleEditExpense(index, field, value) {
         const updatedExpenses = [...expenses];
         updatedExpenses[index][field] = value;
         setExpenses(updatedExpenses);
+        localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
     }
 
 
