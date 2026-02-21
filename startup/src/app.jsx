@@ -32,15 +32,15 @@ export default function App() {
                     <li className="nav-item"><NavLink className="nav-link" to="Sheets">All Sheets</NavLink></li>
                 </ul>
             </nav>}
-            <div className="ms-auto d-flex gap-2">
+            {username !== '' && <div className="ms-auto d-flex gap-2">
                 <button className="btn btn-secondary">Logged in as {username}</button>
                 <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
-            </div>
+            </div>}
         </header>
 
         <Routes>
             <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
-            <Route path="/Overview" element={<Overview/>} exact/>
+            <Route path="/Overview" element={<Overview username={username}/>} exact/>
             <Route path="/Expenses" element={<Expenses username={username}/>} exact/>
             <Route path="/Sheets" element={<Sheets/>} exact/>
             <Route path="/*" element={<NotFound/>}/>

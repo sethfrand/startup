@@ -1,10 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import './overview.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-export default function Overview(){
+export default function Overview(props){
+
+    const [budget,setBudget] = useState(0)
+    const [expenses, setExpenses] = useState([])
+
+    const amountSpent = expenses.reduce((total,expense) => total + Number(expense.amount), 0);
+    const remainingBudget = budget - amountSpent;
+
+
+    useEffect(() => {
+        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.username}`));
+        if (storedExpenses) setExpenses(storedExpenses);
+    },[]);
+
+    const [edit,setEdit] = useState(false)
+
+
+
     return (
         <main>
 
@@ -13,15 +30,23 @@ export default function Overview(){
 
                 <div>
                     <h5>Total Budget</h5>
-                    <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
-                    <p>$0.00</p>
-                    <button className="btn btn-primary">edit budget</button>
+                    {edit
+                        ? <input
+                            value={budget}
+                            onChange={(e) => setBudget(Number(e.target.value))}
+                        />
+                        : <p>${budget}</p>
+                    }
+                    {edit
+                        ? <button className="btn btn-secondary" onClick={() => setEdit(false)}>Save</button>
+                        : <button className="btn btn-primary" onClick={() => setEdit(true)}>Edit Budget</button>
+                    }
                 </div>
 
                 <div>
                     <h5>Total budget remaining this month</h5>
                     <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
-                    <p>$0.00</p>
+                    <p>{remainingBudget}</p>
                 </div>
 
                 <div>
