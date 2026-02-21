@@ -12,8 +12,9 @@ export default function Login(props) {
     const navigate = useNavigate();
 
     function handleLogin() {
-        const existingUser = localStorage.getItem(username);
-        if (existingUser) {
+        const existingUser = localStorage.getItem("userName");
+        const storedPassword = localStorage.getItem("password");
+        if (existingUser && storedPassword === password) {
             navigate('/Overview');
             props.onLogin(username);
         } else
@@ -21,12 +22,14 @@ export default function Login(props) {
     }
 
     function handleCreate() {
-        const existingUser = localStorage.getItem(username);
+        const existingUser = localStorage.getItem("userName");
+        const storedPassword = localStorage.getItem("password");
         if (existingUser) {
             setErrorMessage('User already exists');
         }
         else {
             localStorage.setItem("userName", username);
+            localStorage.setItem("password", password);
             navigate('/Overview');
             props.onLogin(username);
         }

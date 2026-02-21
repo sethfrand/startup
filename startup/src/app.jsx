@@ -15,7 +15,6 @@ export default function App() {
 
 
     function handleLogout() {
-        localStorage.removeItem('userName');
         setUsername('');
         window.location.href = '/'
 
