@@ -22,8 +22,8 @@ export default function Login(props) {
     }
 
     function handleCreate() {
-        const existingUser = localStorage.getItem("userName");
-        const storedPassword = localStorage.getItem("password");
+        const existingUser = localStorage.getItem(username);
+        const storedPassword = localStorage.getItem(username);
         if (existingUser) {
             setErrorMessage('User already exists');
         }
