@@ -21,6 +21,23 @@ export default function Overview(props){
     const [edit,setEdit] = useState(false)
 
 
+    const categoryAmounts = expenses.reduce((amounts, expense) => {
+        if (expense.category) {
+            amounts[expense.category] = (amounts[expense.category] || 0) + Number(expense.amount);
+        }
+        return amounts;
+    }, {});
+
+    const categoryCounts = expenses.reduce((counts, expense) => {
+        if (expense.category) {
+            counts[expense.category] = (counts[expense.category] || 0) + 1;
+        }
+        return counts;
+    }, {});
+
+    const topCategory = Object.keys(categoryCounts).reduce((a, b) =>
+        categoryAmounts[a] > categoryAmounts[b] ? a : b, ''
+    );
 
     return (
         <main>
@@ -46,13 +63,13 @@ export default function Overview(props){
                 <div>
                     <h5>Total budget remaining this month</h5>
                     <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
-                    <p>{remainingBudget}</p>
+                    <p>{remainingBudget} {}</p>
                 </div>
 
                 <div>
                     <h5>Top Category</h5>
                     <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
-                    <p>Some Category</p>
+                    <p>Amount spent: ${categoryAmounts[topCategory]} on {topCategory}</p>
                 </div>
 
                 <div>
