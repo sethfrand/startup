@@ -42,7 +42,7 @@ export default function App() {
             <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
             <Route path="/Overview" element={<Overview username={username}/>} exact/>
             <Route path="/Expenses" element={<Expenses username={username}/>} exact/>
-            <Route path="/Sheets" element={<Sheets/>} exact/>
+            <Route path="/Sheets" element={<Sheets username={username}/>} exact/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
         <footer>
