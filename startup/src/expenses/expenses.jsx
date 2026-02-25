@@ -17,7 +17,7 @@ export default function Expenses(props) {
     }, []);
 
     function handleAddExpense() {
-        const updatedExpenses = [...expenses, { date: '', description: '', amount: '', category: '' }];
+        const updatedExpenses = [{ date: '', description: '', amount: '', category: '' }, ...expenses];
         setExpenses(updatedExpenses);
         localStorage.setItem(`expenses_${props.username}`, JSON.stringify(updatedExpenses));
     }

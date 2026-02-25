@@ -9,6 +9,8 @@ export default function Overview(props){
     const [budget,setBudget] = useState(0)
     const [expenses, setExpenses] = useState([])
 
+    const [chartType, setChartType] = useState('bar')
+
     const amountSpent = expenses.reduce((total,expense) => total + Number(expense.amount), 0);
     const remainingBudget = budget - amountSpent;
 
@@ -63,7 +65,7 @@ export default function Overview(props){
                 <div>
                     <h5>Total budget remaining this month</h5>
                     <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
-                    <p>{remainingBudget} {}</p>
+                    <p>${remainingBudget}</p>
                 </div>
 
                 <div>
@@ -75,6 +77,9 @@ export default function Overview(props){
                 <div>
                     <h5>Monthly trend</h5>
                     <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
+                    {/* <button onClick={() =>setChartType('bar')}>Bar Chart</button>
+                    <button onClick={()=>setChartType('pie')}>Line Chart</button>
+                    {chartType === 'bar' ? <BarChart/> : <PieChart/>} */}
                 </div>
 
             </section>
@@ -97,35 +102,16 @@ export default function Overview(props){
                     </thead>
 
                     <tbody>
-                    <tr>
-                        <td>some date</td>
-                        <td>something bought</td>
-                        <td>some amount of money</td>
-                        <td>some category</td>
-                    </tr>
+                    {expenses.slice(0,5).map((expense, index) => (
 
-                    <tr>
-                        <td>some date</td>
-                        <td>something bought</td>
-                        <td>some amount of money</td>
-                        <td>some category</td>
+                    <tr key = {index}>
+                        <td>{expense.date}</td>
+                        <td>{expense.description}</td>
+                        <td>{expense.amount}</td>
+                        <td>{expense.category}</td>
                     </tr>
-
-                    <tr>
-                        <td>some date</td>
-                        <td>something bought</td>
-                        <td>some amount of money</td>
-                        <td>some category</td>
-                    </tr>
-
-                    <tr>
-                        <td>some date</td>
-                        <td>something bought</td>
-                        <td>some amount of money</td>
-                        <td>some category</td>
-                    </tr>
+                        ))}
                     </tbody>
-
                 </table>
 
             </section>
