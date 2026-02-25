@@ -4,9 +4,12 @@ import './overview.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie,Legend} from 'recharts';
 
 export default function Overview(props){
+
+    const COLORS = ['#5DA5DA','#FAA43A','#60BD68','#F17CB0','#B2912F','#B276B2']
+
 
     const [budget,setBudget] = useState(0)
     const [expenses, setExpenses] = useState([])
@@ -43,8 +46,8 @@ export default function Overview(props){
         categoryAmounts[a] > categoryAmounts[b] ? a : b, ''
     );
 
-    const chartData = Object.keys(categoryAmounts).map(category =>
-        ({name: category, amount: categoryAmounts[category]}));
+    const chartData = Object.keys(categoryAmounts).map((category,index) =>
+        ({name: category, amount: categoryAmounts[category],fill: COLORS[index % COLORS.length]}));
 
     return (
         <main>
@@ -84,28 +87,30 @@ export default function Overview(props){
                         <h5>Monthly trend</h5>
                         <div className="d-flex gap-2 mb-2">
                             <button
-                                className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline-primary'}`}
-                                onClick={() => setChartType('bar')}>
+                                className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
+                                onClick={() => setChartType('pie')}>
                                 Bar Chart
                             </button>
                             <button
-                                className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
-                                onClick={() => setChartType('pie')}>
+                                className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline-primary'}`}
+                                onClick={() => setChartType('bar')}>
                                 Pie Chart
                             </button>
                         </div>
                         <ResponsiveContainer width="100%" height={300}>
                             {chartType === 'bar'
-                                ? <BarChart data={chartData}>
+                                ?                                     <PieChart>
+                                    <Pie data={chartData} dataKey="amount" nameKey="name" label>
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                </PieChart>:
+                                <BarChart data={chartData}>
                                     <XAxis dataKey="name"/>
                                     <YAxis/>
                                     <Tooltip/>
                                     <Bar dataKey="amount" fill="#1a73e8"/>
                                 </BarChart>
-                                : <PieChart>
-                                    <Pie data={chartData} dataKey="amount" nameKey="name" label/>
-                                    <Tooltip/>
-                                </PieChart>
                             }
                         </ResponsiveContainer>
                     </div>
