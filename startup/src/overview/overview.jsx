@@ -4,6 +4,8 @@ import './overview.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+
 export default function Overview(props){
 
     const [budget,setBudget] = useState(0)
@@ -41,6 +43,9 @@ export default function Overview(props){
         categoryAmounts[a] > categoryAmounts[b] ? a : b, ''
     );
 
+    const chartData = Object.keys(categoryAmounts).map(category =>
+        ({name: category, amount: categoryAmounts[category]}));
+
     return (
         <main>
 
@@ -75,11 +80,35 @@ export default function Overview(props){
                 </div>
 
                 <div>
-                    <h5>Monthly trend</h5>
-                    <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
-                    {/* <button onClick={() =>setChartType('bar')}>Bar Chart</button>
-                    <button onClick={()=>setChartType('pie')}>Line Chart</button>
-                    {chartType === 'bar' ? <BarChart/> : <PieChart/>} */}
+                    <div>
+                        <h5>Monthly trend</h5>
+                        <div className="d-flex gap-2 mb-2">
+                            <button
+                                className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline-primary'}`}
+                                onClick={() => setChartType('bar')}>
+                                Bar Chart
+                            </button>
+                            <button
+                                className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
+                                onClick={() => setChartType('pie')}>
+                                Pie Chart
+                            </button>
+                        </div>
+                        <ResponsiveContainer width="100%" height={300}>
+                            {chartType === 'bar'
+                                ? <BarChart data={chartData}>
+                                    <XAxis dataKey="name"/>
+                                    <YAxis/>
+                                    <Tooltip/>
+                                    <Bar dataKey="amount" fill="#1a73e8"/>
+                                </BarChart>
+                                : <PieChart>
+                                    <Pie data={chartData} dataKey="amount" nameKey="name" label/>
+                                    <Tooltip/>
+                                </PieChart>
+                            }
+                        </ResponsiveContainer>
+                    </div>
                 </div>
 
             </section>
