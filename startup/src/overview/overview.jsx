@@ -11,6 +11,26 @@ export default function Overview(props){
     const COLORS = ['#5DA5DA','#FAA43A','#60BD68','#F17CB0','#B2912F','#B276B2']
 
 
+    const mockExchangeRates =
+        {
+            EUR:0.92,
+            USD:1,
+            PLN:4.02,
+            GBP:0.79,
+
+        };
+    const [currency,setCurrency] = useState('EUR')
+    const [amount,setAmount] = useState(0)
+    const [convertedAmount,setConvertedAmount] = useState(0)
+
+
+    function handleCurrencyChange() {
+        const rate = mockExchangeRates[currency];
+        const result = Number(amount * rate);
+        setConvertedAmount(result);
+    }
+
+
     const [budget,setBudget] = useState(0)
     const [expenses, setExpenses] = useState([])
 
@@ -97,12 +117,12 @@ export default function Overview(props){
                             <button
                                 className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
                                 onClick={() => setChartType('pie')}>
-                                Bar Chart
+                                Pie Chart
                             </button>
                             <button
                                 className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline-primary'}`}
                                 onClick={() => setChartType('bar')}>
-                                Pie Chart
+                                Bar Chart
                             </button>
                         </div>
                         <ResponsiveContainer width="100%" height={300}>
@@ -158,8 +178,24 @@ export default function Overview(props){
 
             </section>
             <div>
-                <h5>Exchange rate</h5>
-                <input placeholder="PL" type="text"/><button>Go</button>
+                <h5>Exchange Rate (USD)</h5>
+                <div className="d-flex gap-2 align-items-center">
+                    <input
+                        type="number"
+                        placeholder="Amount in USD"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                    />
+                    <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="PLN">PLN</option>
+                    </select>
+                    <button className="btn btn-primary" onClick={handleCurrencyChange}>Convert</button>
+                </div>
+                {convertedAmount && (
+                    <p>${amount} USD = {convertedAmount} {currency}</p>
+                )}
             </div>
         </main>
     );

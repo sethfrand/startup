@@ -13,7 +13,7 @@ export default function Login(props) {
         const storedPassword = localStorage.getItem(`password_${username}`);
         if (storedPassword && storedPassword === password) {
             localStorage.removeItem('currentSheet')
-            navigate('/Overview');
+            navigate('/Sheets');
             props.onLogin(username);
 
         } else {
@@ -28,7 +28,7 @@ export default function Login(props) {
         } else {
             localStorage.setItem(`password_${username}`, password);
             localStorage.removeItem('currentSheet')
-            navigate('/Overview');
+            navigate('/Sheets');
             props.onLogin(username);
         }
     }
