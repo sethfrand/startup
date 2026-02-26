@@ -115,18 +115,18 @@ export default function Overview(props){
                         <h5>Monthly trend</h5>
                         <div className="d-flex gap-2 mb-2">
                             <button
-                                className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
-                                onClick={() => setChartType('pie')}>
-                                Pie Chart
-                            </button>
-                            <button
                                 className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline-primary'}`}
                                 onClick={() => setChartType('bar')}>
                                 Bar Chart
                             </button>
+                            <button
+                                className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
+                                onClick={() => setChartType('pie')}>
+                                Pie Chart
+                            </button>
                         </div>
                         <ResponsiveContainer width="100%" height={300}>
-                            {chartType === 'bar'
+                            {chartType === 'pie'
                                 ?                                     <PieChart>
                                     <Pie data={chartData} dataKey="amount" nameKey="name" label>
                                     </Pie>
