@@ -21,7 +21,7 @@ export default function Overview(props){
 
 
     useEffect(() => {
-        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.username}`));
+        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.currentSheet}`));
         if (storedExpenses) setExpenses(storedExpenses);
     },[]);
 

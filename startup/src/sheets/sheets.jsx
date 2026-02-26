@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './sheets.css';
+import {useNavigate} from "react-router-dom";
 
 export default function Sheets(props) {
     const [sheets, setSheets] = useState([]);
     const [sharingId, setSharingId] = useState(null);
     const [shareUsername, setShareUsername] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedSheets = JSON.parse(localStorage.getItem(`sheets_${props.username}`));
@@ -53,6 +56,13 @@ export default function Sheets(props) {
         setShareUsername('');
     }
 
+
+    function handleEditSheet(id)
+    {
+        localStorage.setItem('currentSheet', id)
+        props.setCurrentSheet(id)
+        navigate('/Expenses');
+    }
     return (
         <main>
             <button className="btn btn-primary mb-3" onClick={handleCreateSheet}>Create New Sheet</button>
@@ -65,6 +75,7 @@ export default function Sheets(props) {
                         />
                         <button className="btn btn-danger btn-sm" onClick={() => handleDeleteSheet(sheet.id)}>Delete</button>
                         <button className="btn btn-secondary btn-sm" onClick={() => setSharingId(sheet.id)}>Share</button>
+                        <button className="btn btn-primary btn-sm" onClick={() => handleEditSheet(sheet.id)}>Edit</button>
                         {sharingId === sheet.id && (
                             <div className="d-flex gap-2">
                                 <input

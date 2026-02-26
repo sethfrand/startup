@@ -9,34 +9,36 @@ export default function Expenses(props) {
     const [newCategory, setNewCategory] = useState('');
 
     useEffect(() => {
-        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.username}`));
+        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.currentSheet}`));
         if (storedExpenses) setExpenses(storedExpenses);
 
-        const storedCategories = JSON.parse(localStorage.getItem(`categories_${props.username}`));
+        const storedCategories = JSON.parse(localStorage.getItem(`categories_${props.currentSheet}`));
         if (storedCategories) setCategories(storedCategories);
     }, []);
 
     function handleAddExpense() {
         const updatedExpenses = [{ date: '', description: '', amount: '', category: '' }, ...expenses];
         setExpenses(updatedExpenses);
-        localStorage.setItem(`expenses_${props.username}`, JSON.stringify(updatedExpenses));
+        localStorage.setItem(`expenses_${props.currentSheet}`, JSON.stringify(updatedExpenses));
     }
 
     function handleEditExpense(index, field, value) {
         const updatedExpenses = [...expenses];
         updatedExpenses[index][field] = value;
         setExpenses(updatedExpenses);
-        localStorage.setItem(`expenses_${props.username}`, JSON.stringify(updatedExpenses));
+        localStorage.setItem(`expenses_${props.currentSheet}`, JSON.stringify(updatedExpenses));
     }
 
     function handleAddCategory() {
         if (!newCategory.trim()) return;
         const updatedCategories = [...categories, newCategory];
         setCategories(updatedCategories);
-        localStorage.setItem(`categories_${props.username}`, JSON.stringify(updatedCategories));
+        localStorage.setItem(`categories_${props.currentSheet}`, JSON.stringify(updatedCategories));
         setNewCategory('');
     }
-
+    if (!props.currentSheet) {
+        return <main><p>Please select a sheet from <a href="/Sheets">All Sheets</a> first.</p></main>;
+    }
     return (
         <main>
             <h1>Expenses</h1>

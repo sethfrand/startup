@@ -1,6 +1,7 @@
 import React, {useState} from  'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css';
+import { FaBell } from 'react-icons/fa';
 
 
 import {Routes, Route, NavLink, BrowserRouter} from "react-router-dom";
@@ -12,6 +13,7 @@ import Login from './login/login';
 
 export default function App() {
     const [username, setUsername] = useState('');
+    const [currentSheet, setCurrentSheet] = useState(localStorage.getItem('currentSheet') || null);
 
 
     function handleLogout() {
@@ -33,6 +35,7 @@ export default function App() {
                 </ul>
             </nav>}
             {username !== '' && <div className="ms-auto d-flex gap-2">
+                <FaBell size = {30} color = '#0d6efd'/>
                 <button className="btn btn-secondary">Logged in as {username}</button>
                 <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
             </div>}
@@ -40,9 +43,9 @@ export default function App() {
 
         <Routes>
             <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
-            <Route path="/Overview" element={<Overview username={username}/>} exact/>
-            <Route path="/Expenses" element={<Expenses username={username}/>} exact/>
-            <Route path="/Sheets" element={<Sheets username={username}/>} exact/>
+            <Route path="/Overview" element={<Overview username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
+            <Route path="/Expenses" element={<Expenses username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
+            <Route path="/Sheets" element={<Sheets username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
         <footer>
