@@ -34,7 +34,7 @@ export default function Login(props) {
         <div className="login-page">
             <main>
                 <img src="/logo_transparent_banner.png" alt="Finance-Sheet Logo" className="login-logo"/>
-                <form>
+                <form onSubmit={(e) => e.preventDefault()}>
                     <div className="input-group mb-3">
                         <span className="input-group-text">@</span>
                         <input className="form-control" onChange={(e) => setUsername(e.target.value)} type="text" value={username} placeholder="Username"/>
@@ -44,7 +44,7 @@ export default function Login(props) {
                         <input className="form-control" onChange={(e) => setPassword(e.target.value)} type="password" value={password} placeholder="Password"/>
                     </div>
                     {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-                    <button className="btn btn-primary" type="button" onClick={handleLogin}>Login</button>
+                    <button className="btn btn-primary" type="submit" onClick={handleLogin}>Login</button>
                     <button className="btn btn-secondary" type="button" onClick={handleCreate}>Create</button>
                 </form>
             </main>

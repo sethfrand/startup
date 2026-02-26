@@ -23,6 +23,8 @@ export default function Overview(props){
     useEffect(() => {
         const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.currentSheet}`));
         if (storedExpenses) setExpenses(storedExpenses);
+        const storedBudget = localStorage.getItem(`budget_${props.username}`);
+        if (storedBudget) setBudget(Number(storedBudget));
     },[]);
 
     const [edit,setEdit] = useState(false)
@@ -49,6 +51,12 @@ export default function Overview(props){
     const chartData = Object.keys(categoryAmounts).map((category,index) =>
         ({name: category, amount: categoryAmounts[category],fill: COLORS[index % COLORS.length]}));
 
+    function handleSaveBudget() {
+        setBudget(updatedBudget);
+        localStorage.setItem(`budget_${props.username}`, budget);
+        setEdit(false);
+
+    }
     return (
         <main>
 
@@ -65,7 +73,7 @@ export default function Overview(props){
                         : <p>${budget}</p>
                     }
                     {edit
-                        ? <button className="btn btn-secondary" onClick={() => setEdit(false)}>Save</button>
+                        ? <button className="btn btn-secondary" onClick={handleSaveBudget}>Save</button>
                         : <button className="btn btn-primary" onClick={() => setEdit(true)}>Edit Budget</button>
                     }
                 </div>

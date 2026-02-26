@@ -88,6 +88,8 @@ export default function Expenses(props) {
                 </tbody>
             </table>
 
+            <button className="btn btn-primary mt-3" onClick={handleAddExpense}>Add Expense</button>
+
             <div className="mt-3">
                 <input
                     placeholder="Add new category..."
@@ -96,8 +98,6 @@ export default function Expenses(props) {
                 />
                 <button className="btn btn-secondary" onClick={handleAddCategory}>Add Category</button>
             </div>
-
-            <button className="btn btn-primary mt-3" onClick={handleAddExpense}>Add Expense</button>
         </main>
     );
 }
