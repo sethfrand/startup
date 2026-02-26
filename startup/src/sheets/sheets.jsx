@@ -12,12 +12,13 @@ export default function Sheets(props) {
     useEffect(() => {
         const storedSheets = JSON.parse(localStorage.getItem(`sheets_${props.username}`));
         if (storedSheets) setSheets(storedSheets);
+        if (!storedSheets || storedSheets.length === 0) {handleCreateSheet('1st Sheet')}
     }, []);
 
-    function handleCreateSheet() {
+    function handleCreateSheet(name = 'New Sheet') {
         const updatedSheets = [...sheets, {
             id: Date.now(),
-            name: 'New Sheet',
+            name: name,
             owner: props.username,
             sharedWith: []
         }];

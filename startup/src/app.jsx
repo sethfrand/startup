@@ -18,7 +18,7 @@ export default function App() {
     const [showNotifications, setShowNotifications] = useState(false);
 
     const mockedNotifications = [
-        `${username} has added a new expense to ${currentSheet.name}`,
+        `${username} has added a new expense to ${currentSheet}`,
         `${username} shared a sheet with you`,
     ]
 
@@ -31,9 +31,15 @@ export default function App() {
         return () => clearInterval(interval);},[username, currentSheet])
 
     function handleLogout() {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('currentSheet');
+        localStorage.removeItem(`sheets_${username}`);
+        localStorage.removeItem(`expenses_${currentSheet}`);
+        localStorage.removeItem(`categories_${currentSheet}`);
+        localStorage.removeItem(`budget_${username}`);
         setUsername('');
-        window.location.href = '/'
-
+        setCurrentSheet(null);
+        window.location.href = '/'; // always last!
     }
 
     return (

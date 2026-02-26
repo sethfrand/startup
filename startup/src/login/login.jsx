@@ -12,8 +12,10 @@ export default function Login(props) {
     function handleLogin() {
         const storedPassword = localStorage.getItem(`password_${username}`);
         if (storedPassword && storedPassword === password) {
+            localStorage.removeItem('currentSheet')
             navigate('/Overview');
             props.onLogin(username);
+
         } else {
             setErrorMessage('User does not exist or password is incorrect');
         }
@@ -25,6 +27,7 @@ export default function Login(props) {
             setErrorMessage('User already exists');
         } else {
             localStorage.setItem(`password_${username}`, password);
+            localStorage.removeItem('currentSheet')
             navigate('/Overview');
             props.onLogin(username);
         }

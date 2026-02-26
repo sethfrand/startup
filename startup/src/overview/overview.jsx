@@ -52,7 +52,7 @@ export default function Overview(props){
         ({name: category, amount: categoryAmounts[category],fill: COLORS[index % COLORS.length]}));
 
     function handleSaveBudget() {
-        setBudget(updatedBudget);
+        setBudget(budget);
         localStorage.setItem(`budget_${props.username}`, budget);
         setEdit(false);
 
