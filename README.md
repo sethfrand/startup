@@ -109,9 +109,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **All functionality implemented or mocked out** - I did complete this part of the deliverable.
-- [x] **Hooks** - I did complete this part of the deliverable.
-
+- [x] **All functionality implemented or mocked out** - I used localstorage to store users and passwords because we don't have a database implemented yet. All data is stored with the user as part of the key so that only that user has access to that data. I used setInterval to add mock notifications of users sharing sheets and making edits to the different sheets. This will be replaced with the websocket when we get to that point. On the overview page, I also have a mockExchange rate, this will be the API call for the user to get currency conversion rates. For now it is a simple function call. 
+- [x] **Hooks** - I used useState for functionalities like username, and password to have exact experience be personalized to the user. With this I also used useState so that each user had different sheets and budget. I also used it to display calculated amounts on the overview page, show notifications and change what kind of graph they see on the overview page. I used useNavigate so that when the user wants to edit a spcific sheet, they are then moved to a different page. I also used this for the login and logout buttons. I used the useEffect hook to load data from local storage such as the sheets for a user. Each user has their own exeperience. 
 ## 🚀 Service deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
