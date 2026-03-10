@@ -89,7 +89,8 @@ apiRouter.get('/expenses', verifyAuth, (req, res) => {
     res.send(storedExpenses);
 });
 apiRouter.post('/expenses', verifyAuth, (req, res) => {
-    const newExpense = expenses.new(e => e.sheet === req.user.email, req.body);
+    const newExpense = { ...req.body, expense: req.user.email};
+    expenses.push(newExpense);
     res.send(newExpense);
 });
 
