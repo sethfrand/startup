@@ -43,6 +43,15 @@ export default function App() {
     }
     */}
 
+    async function handleLogout() {
+        await fetch('/api/auth/logout', { method: 'delete' });
+        localStorage.removeItem('userName');
+        localStorage.removeItem('currentSheet');
+        setUsername('');
+        setCurrentSheet(null);
+        window.location.href = '/';
+    }
+
     return (
     <BrowserRouter>
     <div>

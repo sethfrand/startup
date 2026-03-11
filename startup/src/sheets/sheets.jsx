@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import './sheets.css';
 import {useNavigate} from "react-router-dom";
 
@@ -10,11 +10,29 @@ export default function Sheets(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        async function loadSheets() {
+            const response = await fetch('/api/sheets');
+            if (response?.status === 200) {
+                const data = await response.json();
+                if (data.length === 0) {
+                    handleCreateSheet('1st Sheet')
+                } else {
+                    setSheets(data);
+                }
+            }
+        }
+
+        loadSheets();
+    }, []);
+    {/*
+    useEffect(() => {
         const storedSheets = JSON.parse(localStorage.getItem(`sheets_${props.username}`));
         if (storedSheets) setSheets(storedSheets);
         if (!storedSheets || storedSheets.length === 0) {handleCreateSheet('1st Sheet')}
     }, []);
-
+    */
+    }
+    {/*
     function handleCreateSheet(name = 'New Sheet') {
         const updatedSheets = [...sheets, {
             id: Date.now(),
@@ -25,10 +43,28 @@ export default function Sheets(props) {
         setSheets(updatedSheets);
         localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
     }
+*/
+    }
+
+    async function handleCreateSheet(name = 'New Sheet') {
+        const response = await fetch('/api/sheets', {
+            method: 'post',
+            body: JSON.stringify({name: name, owner: props.username}),
+            headers: {'Content-type': 'application/json; charset=UTF-8'},
+        });
+        if (response?.status === 200) {
+            const newSheet = await response.json();
+            const updatedSheets = [...sheets, newSheet];
+            setSheets(updatedSheets);
+            localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
+        } else {
+
+        }
+    }
 
     function handleRenameSheet(id, newName) {
         const updatedSheets = sheets.map(sheet =>
-            sheet.id === id ? { ...sheet, name: newName } : sheet
+            sheet.id === id ? {...sheet, name: newName} : sheet
         );
         setSheets(updatedSheets);
         localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
@@ -50,7 +86,7 @@ export default function Sheets(props) {
         const theirSheets = JSON.parse(localStorage.getItem(`sheets_${shareUsername}`)) || [];
         const alreadyShared = theirSheets.some(s => s.id === id);
         if (!alreadyShared) {
-            const updatedTheirSheets = [...theirSheets, { ...sheetToShare, sharedWith: [] }];
+            const updatedTheirSheets = [...theirSheets, {...sheetToShare, sharedWith: []}];
             localStorage.setItem(`sheets_${shareUsername}`, JSON.stringify(updatedTheirSheets));
         }
         setSharingId(null);
@@ -58,12 +94,12 @@ export default function Sheets(props) {
     }
 
 
-    function handleEditSheet(id)
-    {
+    function handleEditSheet(id) {
         localStorage.setItem('currentSheet', id)
         props.setCurrentSheet(id)
         navigate('/Expenses');
     }
+
     return (
         <main>
             <button className="btn btn-primary mb-3" onClick={handleCreateSheet}>Create New Sheet</button>
@@ -74,9 +110,12 @@ export default function Sheets(props) {
                             value={sheet.name}
                             onChange={(e) => handleRenameSheet(sheet.id, e.target.value)}
                         />
-                        <button className="btn btn-danger btn-sm" onClick={() => handleDeleteSheet(sheet.id)}>Delete</button>
-                        <button className="btn btn-secondary btn-sm" onClick={() => setSharingId(sheet.id)}>Share</button>
-                        <button className="btn btn-primary btn-sm" onClick={() => handleEditSheet(sheet.id)}>Edit</button>
+                        <button className="btn btn-danger btn-sm" onClick={() => handleDeleteSheet(sheet.id)}>Delete
+                        </button>
+                        <button className="btn btn-secondary btn-sm" onClick={() => setSharingId(sheet.id)}>Share
+                        </button>
+                        <button className="btn btn-primary btn-sm" onClick={() => handleEditSheet(sheet.id)}>Edit
+                        </button>
                         {sharingId === sheet.id && (
                             <div className="d-flex gap-2">
                                 <input
@@ -84,8 +123,12 @@ export default function Sheets(props) {
                                     value={shareUsername}
                                     onChange={(e) => setShareUsername(e.target.value)}
                                 />
-                                <button className="btn btn-primary btn-sm" onClick={() => handleShareSheet(sheet.id)}>Send</button>
-                                <button className="btn btn-outline-secondary btn-sm" onClick={() => setSharingId(null)}>Cancel</button>
+                                <button className="btn btn-primary btn-sm"
+                                        onClick={() => handleShareSheet(sheet.id)}>Send
+                                </button>
+                                <button className="btn btn-outline-secondary btn-sm"
+                                        onClick={() => setSharingId(null)}>Cancel
+                                </button>
                             </div>
                         )}
                     </li>
