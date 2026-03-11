@@ -29,7 +29,7 @@ export default function App() {
             setNotifications(prevState => [...prevState, RandomNotification])
         },5000)
         return () => clearInterval(interval);},[username, currentSheet])
-
+    {/*
     function handleLogout() {
         localStorage.removeItem('userName');
         localStorage.removeItem('currentSheet');
@@ -41,6 +41,7 @@ export default function App() {
         setCurrentSheet(null);
         window.location.href = '/'; // always last!
     }
+    */}
 
     return (
     <BrowserRouter>
