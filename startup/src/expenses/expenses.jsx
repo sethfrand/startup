@@ -9,32 +9,57 @@ export default function Expenses(props) {
     const [newCategory, setNewCategory] = useState('');
 
     useEffect(() => {
-        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.currentSheet}`));
-        if (storedExpenses) setExpenses(storedExpenses);
-
-        const storedCategories = JSON.parse(localStorage.getItem(`categories_${props.currentSheet}`));
-        if (storedCategories) setCategories(storedCategories);
+        async function loadExpenses() {
+            const response = await fetch(`/api/expenses?sheetId=${props.currentSheet}`, {
+                credentials: 'include',
+            });
+            if (response?.status === 200) {
+                const data = await response.json();
+                setExpenses(data);
+            }
+        }
+        loadExpenses();
     }, []);
 
-    function handleAddExpense() {
-        const updatedExpenses = [{ date: '', description: '', amount: '', category: '' }, ...expenses];
-        setExpenses(updatedExpenses);
-        localStorage.setItem(`expenses_${props.currentSheet}`, JSON.stringify(updatedExpenses));
+    async function handleAddExpense() {
+        const response = await fetch('/api/expenses', {
+            method: 'post',
+            body: JSON.stringify({
+                date: new Date().toISOString().split('T')[0],
+                description: 'New Expense',
+                amount: 0,
+                category: '',
+                sheetId: props.currentSheet,
+            }),
+            headers: {'Content-type': 'application/json; charset=UTF-8'},
+            credentials: 'include',
+
+        })
+        if (response?.status === 200) {
+            const newExpense = await response.json();
+            setExpenses([newExpense, ...expenses]);  // missing!
+        }
     }
 
-    function handleEditExpense(index, field, value) {
-        const updatedExpenses = [...expenses];
-        updatedExpenses[index][field] = value;
-        setExpenses(updatedExpenses);
-        localStorage.setItem(`expenses_${props.currentSheet}`, JSON.stringify(updatedExpenses));
+    async function handleEditExpense(index, field, value) {
+        const response = await fetch(`/api/expenses/${expenses[index].id}/update`, {
+            method: 'post',
+            body: JSON.stringify({[field]: value}),
+            headers: {'Content-type': 'application/json; charset=UTF-8'},
+            credentials: 'include',
+        });
+        if (response?.status === 200) {
+            const updatedExpenses = [...expenses];
+            updatedExpenses[index][field] = value;
+            setExpenses(updatedExpenses);
+        }
     }
 
-    function handleAddCategory() {
+    async function handleAddCategory() {
         if (!newCategory.trim()) return;
         const updatedCategories = [...categories, newCategory];
         setCategories(updatedCategories);
         localStorage.setItem(`categories_${props.currentSheet}`, JSON.stringify(updatedCategories));
-        setNewCategory('');
     }
     if (!props.currentSheet) {
         return <main><p>Please select a sheet from <a href="/Sheets">All Sheets</a> first.</p></main>;
@@ -68,6 +93,7 @@ export default function Expenses(props) {
                         </td>
                         <td>
                             <input
+                                type="number"
                                 value={expense.amount}
                                 onChange={(e) => handleEditExpense(index, 'amount', e.target.value)}
                             />

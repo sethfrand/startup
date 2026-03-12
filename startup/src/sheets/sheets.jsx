@@ -11,7 +11,9 @@ export default function Sheets(props) {
 
     useEffect(() => {
         async function loadSheets() {
-            const response = await fetch('/api/sheets');
+            const response = await fetch('/api/sheets', {
+                credentials: 'include',
+            });
             if (response?.status === 200) {
                 const data = await response.json();
                 if (data.length === 0) {
@@ -24,33 +26,13 @@ export default function Sheets(props) {
 
         loadSheets();
     }, []);
-    {/*
-    useEffect(() => {
-        const storedSheets = JSON.parse(localStorage.getItem(`sheets_${props.username}`));
-        if (storedSheets) setSheets(storedSheets);
-        if (!storedSheets || storedSheets.length === 0) {handleCreateSheet('1st Sheet')}
-    }, []);
-    */
-    }
-    {/*
-    function handleCreateSheet(name = 'New Sheet') {
-        const updatedSheets = [...sheets, {
-            id: Date.now(),
-            name: name,
-            owner: props.username,
-            sharedWith: []
-        }];
-        setSheets(updatedSheets);
-        localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
-    }
-*/
-    }
 
     async function handleCreateSheet(name = 'New Sheet') {
         const response = await fetch('/api/sheets', {
             method: 'post',
             body: JSON.stringify({name: name, owner: props.username}),
             headers: {'Content-type': 'application/json; charset=UTF-8'},
+            credentials: 'include',
         });
         if (response?.status === 200) {
             const newSheet = await response.json();
@@ -62,18 +44,37 @@ export default function Sheets(props) {
         }
     }
 
-    function handleRenameSheet(id, newName) {
-        const updatedSheets = sheets.map(sheet =>
-            sheet.id === id ? {...sheet, name: newName} : sheet
-        );
-        setSheets(updatedSheets);
-        localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
+    async function handleRenameSheet(id, newName) {
+        console.log('renaming sheet with id:', id, typeof id);
+        const response = await fetch(`/api/sheets/${id}/rename`, {
+            method: 'post',
+            body: JSON.stringify({name: newName}),
+            headers: {'Content-type': 'application/json; charset=UTF-8'},
+            credentials: 'include',
+        });
+        console.log('response status:', response.status);
+        const text = await response.text();
+        console.log('response body:', text);
+        if (response?.status === 200) {
+            const updatedSheets = sheets.map(sheet =>
+                sheet.id === id ? {...sheet, name: newName} : sheet
+            );
+            setSheets(updatedSheets);
+            localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
+        }
     }
 
-    function handleDeleteSheet(id) {
+    async function handleDeleteSheet(id) {
+        const response = await fetch(`/api/sheets/${id}`, {
+            method: 'delete',
+            credentials: 'include',
+        });
+        if (response?.status === 204) {
+
         const updatedSheets = sheets.filter(sheet => sheet.id !== id);
         setSheets(updatedSheets);
         localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
+    }
     }
 
     function handleShareSheet(id) {
@@ -102,7 +103,7 @@ export default function Sheets(props) {
 
     return (
         <main>
-            <button className="btn btn-primary mb-3" onClick={handleCreateSheet}>Create New Sheet</button>
+            <button className="btn btn-primary mb-3" onClick={() => handleCreateSheet()}>Create New Sheet</button>
             <ul className="list-unstyled">
                 {sheets.map(sheet => (
                     <li key={sheet.id} className="mb-2 d-flex align-items-center gap-2">

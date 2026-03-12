@@ -6,13 +6,18 @@ const app = express();
 
 const authCookieName = 'token';
 
-
 let users = [];
 let sheets = [];
 let expenses = []
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
+
+// Logger - must be FIRST so all requests are logged
+app.use((req, res, next) => {
+    console.log('REQUEST:', req.method, req.path);
+    next();
+});
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
@@ -65,7 +70,10 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
+    console.log('cookies:', req.cookies);
+    console.log('auth cookie:', req.cookies[authCookieName]);
     const user = await findUser('token', req.cookies[authCookieName]);
+    console.log('user found:', user);
     if (user) {
         req.user = user;
         next();
@@ -75,26 +83,60 @@ const verifyAuth = async (req, res, next) => {
 };
 
 
-apiRouter.get('/sheets', verifyAuth, (req, res) => {
-    const storedSheets = sheets.filter(s => s.user === req.user.email);
-    res.send(storedSheets);
-});
+// SHEETS
+
 apiRouter.post('/sheets', verifyAuth, (req, res) => {
-    const newSheet = { ...req.body, owner: req.user.email};
+    const newSheet = {
+        ...req.body,
+        owner: req.user.email,
+        id: Date.now()
+    };
     sheets.push(newSheet);
     res.send(newSheet);
 });
+
+apiRouter.get('/sheets', verifyAuth, (req, res) => {
+    const storedSheets = sheets.filter(s => s.owner === req.user.email);
+    res.send(storedSheets);
+});
+
+apiRouter.delete('/sheets/:id', verifyAuth, (req, res) => {
+    sheets = sheets.filter(s => s.id !== Number(req.params.id));
+    res.status(204).end();
+})
+
+apiRouter.post('/sheets/:id/rename', verifyAuth, (req, res) => {
+    const sheetToUpdate = sheets.find(s => s.id === Number(req.params.id));
+    if (sheetToUpdate) {
+        sheetToUpdate.name = req.body.name;
+        res.send(sheetToUpdate);
+    } else {
+        res.status(404).send({ msg: 'Sheet not found' });
+    }
+});
+
+// EXPENSES
+
 apiRouter.get('/expenses', verifyAuth, (req, res) => {
-    const storedExpenses = expenses.filter(e => e.sheet === req.user.email);
+    const storedExpenses = expenses.filter(e => e.sheet === req.query.sheetId);
     res.send(storedExpenses);
 });
+
 apiRouter.post('/expenses', verifyAuth, (req, res) => {
-    const newExpense = { ...req.body, expense: req.user.email};
+    const newExpense = { ...req.body, expense: req.user.email, id: Date.now()};
     expenses.push(newExpense);
     res.send(newExpense);
 });
 
-
+apiRouter.post('/expenses/:id/update', verifyAuth, (req, res) => {
+    const expenseToUpdate = expenses.find(e => e.id === Number(req.params.id));
+    if (expenseToUpdate) {
+        Object.assign(expenseToUpdate, req.body);
+        res.send(expenseToUpdate);
+    } else {
+        res.status(404).send({ msg: 'Expense not found' });
+    }
+});
 
 // Default error handler
 app.use(function (err, req, res, next) {
@@ -129,9 +171,9 @@ async function findUser(field, value) {
 function setAuthCookie(res, authToken) {
     res.cookie(authCookieName, authToken, {
         maxAge: 1000 * 60 * 60 * 24 * 365,
-        secure: true,
+        secure: false,
         httpOnly: true,
-        sameSite: 'strict',
+        sameSite: 'lax',
     });
 }
 
