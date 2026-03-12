@@ -29,7 +29,7 @@ export default function Expenses(props) {
                 description: 'New Expense',
                 amount: 0,
                 category: '',
-                sheetId: props.currentSheet,
+                sheetId: Number(props.currentSheet),
             }),
             headers: {'Content-type': 'application/json; charset=UTF-8'},
             credentials: 'include',

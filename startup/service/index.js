@@ -118,8 +118,10 @@ apiRouter.post('/sheets/:id/rename', verifyAuth, (req, res) => {
 // EXPENSES
 
 apiRouter.get('/expenses', verifyAuth, (req, res) => {
-    const storedExpenses = expenses.filter(e => e.sheet === req.query.sheetId);
+    const storedExpenses = expenses.filter(e => e.sheetId === Number(req.query.sheetId));
     res.send(storedExpenses);
+    console.log('query sheetId:', req.query.sheetId, typeof req.query.sheetId);
+    console.log('stored sheetIds:', expenses.map(e => ({id: e.sheetId, type: typeof e.sheetId})));
 });
 
 apiRouter.post('/expenses', verifyAuth, (req, res) => {
