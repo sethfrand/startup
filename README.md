@@ -115,12 +115,22 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - Imported express into index.js and the server runs
+- [x] **Static middleware for frontend** - I used `app.use(express.static('/public') to tell express to use the react files in public
+- [x] **Calls to third party endpoints** - I am using an API call to fixer.io to get currency exchange rates for 5 currencies
+- [x] **Backend service endpoints** - Using POST, GET and DELETE endpoints for each of the pages to transfer data from page to page.
+      Auth uses 2 POST and a DELETE (POST /api/auth/create, POST /api/auth/login, DELETE /api/auth/logout)
+      Sheets uses 2 POST 1 GET 1 DELETE (GET /api/sheets, POST /api/sheets, DELETE /api/sheets/:id, POST /api/sheets/:id/rename)
+      Expenses uses 1 GET and 2 POST (GET /api/expenses?sheetId=..., POST /api/expenses, POST /api/expenses/:id/update)
+      
+- [x] **Frontend calls service endpoints** -
+      login.jsx calls POST /api/auth/login and POST /api/auth/create when the user clicks Login or Create
+      sheets.jsx calls GET /api/sheets on load, POST /api/sheets to create, DELETE /api/sheets/:id to delete, and
+      POST /api/sheets/:id/rename on every rename input change
+      expenses.jsx calls GET /api/expenses?sheetId=... on load, POST /api/expenses to add a row, and
+      POST /api/expenses/:id/update on every field edit
+      overview.jsx calls GET /api/sheets and GET /api/expenses to populate the stats and charts, plus /api/exchange-           rate for the currency converter
+- [x] **Supports registration, login, logout, and restricted endpoint** - In index.js, the password is hashed, and the user is stored. Login finds and verifies the user, logout delete the token and clears the cookie. For the restricted Endpoitns, VerifyAuth runs before every sheet and expense endpoint so we can match the sheets and expenses to the user. 
 
 
 ## 🚀 DB deliverable
