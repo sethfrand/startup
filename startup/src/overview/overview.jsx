@@ -4,25 +4,22 @@ import './overview.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie,Legend} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Legend} from 'recharts';
 
 export default function Overview(props){
 
-    const COLORS = ['#5DA5DA','#FAA43A','#60BD68','#F17CB0','#B2912F','#B276B2']
+    const COLORS = ['#5DA5DA','#FAA43A','#60BD68','#F17CB0','#B2912F','#B276B2'];
 
+    const mockExchangeRates = {
+        EUR: 0.92,
+        USD: 1,
+        PLN: 4.02,
+        GBP: 0.79,
+    };
 
-    const mockExchangeRates =
-        {
-            EUR:0.92,
-            USD:1,
-            PLN:4.02,
-            GBP:0.79,
-
-        };
-    const [currency,setCurrency] = useState('EUR')
-    const [amount,setAmount] = useState(0)
-    const [convertedAmount,setConvertedAmount] = useState(0)
-
+    const [currency, setCurrency] = useState('EUR');
+    const [amount, setAmount] = useState(0);
+    const [convertedAmount, setConvertedAmount] = useState(0);
 
     function handleCurrencyChange() {
         const rate = mockExchangeRates[currency];
@@ -30,25 +27,51 @@ export default function Overview(props){
         setConvertedAmount(result);
     }
 
+    const [budget, setBudget] = useState(0);
+    const [expenses, setExpenses] = useState([]);
+    const [sheets, setSheets] = useState([]);
+    const [selectedSheet, setSelectedSheet] = useState(props.currentSheet || null);
+    const [chartType, setChartType] = useState('bar');
+    const [edit, setEdit] = useState(false);
 
-    const [budget,setBudget] = useState(0)
-    const [expenses, setExpenses] = useState([])
-
-    const [chartType, setChartType] = useState('bar')
-
-    const amountSpent = expenses.reduce((total,expense) => total + Number(expense.amount), 0);
+    const amountSpent = expenses.reduce((total, expense) => total + Number(expense.amount), 0);
     const remainingBudget = budget - amountSpent;
 
-
+    // Load sheets on mount
     useEffect(() => {
-        const storedExpenses = JSON.parse(localStorage.getItem(`expenses_${props.currentSheet}`));
-        if (storedExpenses) setExpenses(storedExpenses);
+        async function loadSheets() {
+            const response = await fetch('/api/sheets', {
+                credentials: 'include',
+            });
+            if (response?.status === 200) {
+                const data = await response.json();
+                setSheets(data);
+                // If no sheet selected yet, default to first sheet
+                if (!selectedSheet && data.length > 0) {
+                    setSelectedSheet(data[0].id);
+                }
+            }
+        }
+        loadSheets();
+
         const storedBudget = localStorage.getItem(`budget_${props.username}`);
         if (storedBudget) setBudget(Number(storedBudget));
-    },[]);
+    }, []);
 
-    const [edit,setEdit] = useState(false)
-
+    // Load expenses whenever selected sheet changes
+    useEffect(() => {
+        if (!selectedSheet) return;
+        async function loadExpenses() {
+            const response = await fetch(`/api/expenses?sheetId=${selectedSheet}`, {
+                credentials: 'include',
+            });
+            if (response?.status === 200) {
+                const data = await response.json();
+                setExpenses(data);
+            }
+        }
+        loadExpenses();
+    }, [selectedSheet]);
 
     const categoryAmounts = expenses.reduce((amounts, expense) => {
         if (expense.category) {
@@ -68,17 +91,38 @@ export default function Overview(props){
         categoryAmounts[a] > categoryAmounts[b] ? a : b, ''
     );
 
-    const chartData = Object.keys(categoryAmounts).map((category,index) =>
-        ({name: category, amount: categoryAmounts[category],fill: COLORS[index % COLORS.length]}));
+    const chartData = Object.keys(categoryAmounts).map((category, index) =>
+        ({ name: category, amount: categoryAmounts[category], fill: COLORS[index % COLORS.length] }));
 
     function handleSaveBudget() {
         setBudget(budget);
         localStorage.setItem(`budget_${props.username}`, budget);
         setEdit(false);
-
     }
+
+    function handleSheetChange(e) {
+        const newSheetId = Number(e.target.value);
+        setSelectedSheet(newSheetId);
+        props.setCurrentSheet(newSheetId);
+        localStorage.setItem('currentSheet', newSheetId);
+    }
+
     return (
         <main>
+
+            {/* Sheet Selector */}
+            <div className="mb-3 d-flex align-items-center gap-2">
+                <label><strong>Viewing sheet:</strong></label>
+                <select
+                    className="form-select w-auto"
+                    value={selectedSheet || ''}
+                    onChange={handleSheetChange}
+                >
+                    {sheets.map(sheet => (
+                        <option key={sheet.id} value={sheet.id}>{sheet.name}</option>
+                    ))}
+                </select>
+            </div>
 
             {/* Stats Section */}
             <section>
@@ -100,60 +144,51 @@ export default function Overview(props){
 
                 <div>
                     <h5>Total budget remaining this month</h5>
-                    <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
                     <p>${remainingBudget}</p>
                 </div>
 
                 <div>
                     <h5>Top Category</h5>
-                    <svg aria-hidden="true" height="100" viewBox="0 0 100 100" width="100"></svg>
-                    <p>Amount spent: ${categoryAmounts[topCategory]} on {topCategory}</p>
+                    <p>Amount spent: ${categoryAmounts[topCategory] || 0} on {topCategory || 'N/A'}</p>
                 </div>
 
                 <div>
-                    <div>
-                        <h5>Monthly trend</h5>
-                        <div className="d-flex gap-2 mb-2">
-                            <button
-                                className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline-primary'}`}
-                                onClick={() => setChartType('bar')}>
-                                Bar Chart
-                            </button>
-                            <button
-                                className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
-                                onClick={() => setChartType('pie')}>
-                                Pie Chart
-                            </button>
-                        </div>
-                        <ResponsiveContainer width="100%" height={300}>
-                            {chartType === 'pie'
-                                ?                                     <PieChart>
-                                    <Pie data={chartData} dataKey="amount" nameKey="name" label>
-                                    </Pie>
-                                    <Tooltip/>
-                                    <Legend/>
-                                </PieChart>:
-                                <BarChart data={chartData}>
-                                    <XAxis dataKey="name"/>
-                                    <YAxis/>
-                                    <Tooltip/>
-                                    <Bar dataKey="amount" fill="#1a73e8"/>
-                                </BarChart>
-                            }
-                        </ResponsiveContainer>
+                    <h5>Monthly trend</h5>
+                    <div className="d-flex gap-2 mb-2">
+                        <button
+                            className={`btn ${chartType === 'bar' ? 'btn-primary' : 'btn-outline-primary'}`}
+                            onClick={() => setChartType('bar')}>
+                            Bar Chart
+                        </button>
+                        <button
+                            className={`btn ${chartType === 'pie' ? 'btn-primary' : 'btn-outline-primary'}`}
+                            onClick={() => setChartType('pie')}>
+                            Pie Chart
+                        </button>
                     </div>
+                    <ResponsiveContainer width="100%" height={300}>
+                        {chartType === 'pie'
+                            ? <PieChart>
+                                <Pie data={chartData} dataKey="amount" nameKey="name" label/>
+                                <Tooltip/>
+                                <Legend/>
+                            </PieChart>
+                            : <BarChart data={chartData}>
+                                <XAxis dataKey="name"/>
+                                <YAxis/>
+                                <Tooltip/>
+                                <Bar dataKey="amount" fill="#1a73e8"/>
+                            </BarChart>
+                        }
+                    </ResponsiveContainer>
                 </div>
 
             </section>
 
-            {/* Expenses Section */}
-            {/* This is going to show x most recent rows from the expenses page. */}
+            {/* Recent Expenses Section */}
             <section>
-
-                <h2>Expenses</h2>
-
+                <h2>Recent Expenses</h2>
                 <table border="1" cellPadding="6">
-
                     <thead>
                     <tr>
                         <th>Date</th>
@@ -162,22 +197,21 @@ export default function Overview(props){
                         <th>Category</th>
                     </tr>
                     </thead>
-
                     <tbody>
-                    {expenses.slice(0,5).map((expense, index) => (
-
-                    <tr key = {index}>
-                        <td>{expense.date}</td>
-                        <td>{expense.description}</td>
-                        <td>{expense.amount}</td>
-                        <td>{expense.category}</td>
-                    </tr>
-                        ))}
+                    {expenses.slice(0, 5).map((expense, index) => (
+                        <tr key={index}>
+                            <td>{expense.date}</td>
+                            <td>{expense.description}</td>
+                            <td>{expense.amount}</td>
+                            <td>{expense.category}</td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
-
             </section>
-            <div>
+
+            {/* Currency Converter */}
+            <div className="mt-3">
                 <h5>Exchange Rate (USD)</h5>
                 <div className="d-flex gap-2 align-items-center">
                     <input
@@ -193,10 +227,11 @@ export default function Overview(props){
                     </select>
                     <button className="btn btn-primary" onClick={handleCurrencyChange}>Convert</button>
                 </div>
-                {convertedAmount && (
+                {convertedAmount > 0 && (
                     <p>${amount} USD = {convertedAmount} {currency}</p>
                 )}
             </div>
+
         </main>
     );
 }
