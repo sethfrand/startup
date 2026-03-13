@@ -2,7 +2,9 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const express = require('express');
 const uuid = require('uuid');
+const {response} = require("express");
 const app = express();
+require('dotenv').config();
 
 const authCookieName = 'token';
 
@@ -178,6 +180,17 @@ function setAuthCookie(res, authToken) {
         sameSite: 'lax',
     });
 }
+
+
+//API FOR CURRENCY EXCHANGE
+apiRouter.get('/exchange-rate', async (req, res) => {
+    const response = await fetch(
+        `http://data.fixer.io/api/latest?access_key=${process.env.FIXER_API_KEY}&symbols=USD,GBP,EUR,PLN`
+    );
+    const data = await response.json();
+    console.log('fixer response:', data);
+    res.send(data);
+});
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);

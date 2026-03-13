@@ -21,10 +21,13 @@ export default function Overview(props){
     const [amount, setAmount] = useState(0);
     const [convertedAmount, setConvertedAmount] = useState(0);
 
-    function handleCurrencyChange() {
-        const rate = mockExchangeRates[currency];
-        const result = Number(amount * rate);
+    async function handleCurrencyChange() {
+        const response = await fetch('/api/exchange-rate',{credentials: 'include'});
+        const data = await response.json();
+        const rates = data.rates
+        const result =  amount * (rates[currency] / rates.USD);
         setConvertedAmount(result);
+
     }
 
     const [budget, setBudget] = useState(0);
