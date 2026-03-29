@@ -3,101 +3,162 @@ const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
-const db = client.db('fiancesheet');
+const db = client.db('financeSheet');
 
+// Collections
+const userCollection       = db.collection('users');
+const sheetCollection      = db.collection('sheets');
+const expenseCollection    = db.collection('expenses');
 
-const userCollection = db.collection('user');
-const expenseCollection = db.collection('expenses');
-const sheetCollection = db.collection('sheet');
-
-
-// Testing connection to database on startup, exit if fail
-(async function testConnection() {
+(async function connect() {
     try {
         await client.connect();
         await db.command({ ping: 1 });
-        console.log(`Connect to database`);
-    } catch (ex) {
-        console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+        console.log('✅ Connected to MongoDB');
+    } catch (err) {
+        console.error('❌ MongoDB connection failed:', err.message);
         process.exit(1);
     }
 })();
 
+// ── Auth ──────────────────────────────────────────────────────────────────────
 
-
-// --------------USER FUNCTIONS--------------
-function getUser(email) {
-    return userCollection.findOne({ email: email });
+async function getUser(email) {
+    return userCollection.findOne({ email });
 }
 
-function getUserByToken(token) {
-    return userCollection.findOne({ token: token });
+async function getUserByToken(token) {
+    return userCollection.findOne({ token });
 }
 
-async function addUser(user) {
+async function createUser(email, passwordHash, token) {
+    const user = { email, passwordHash, token };
     await userCollection.insertOne(user);
+    return user;
 }
 
-async function updateUser(user) {
-    await userCollection.updateOne({ email: user.email }, { $set: user });
+async function updateUserToken(email, token) {
+    await userCollection.updateOne({ email }, { $set: { token } });
 }
 
-async function updateUserRemoveAuth(user) {
-    await userCollection.updateOne({ email: user.email }, { $unset: { token: 1 } });
+// ── Sheets ────────────────────────────────────────────────────────────────────
+
+async function getSheets(userEmail) {
+    // Return sheets owned by or shared with this user
+    return sheetCollection
+        .find({ $or: [{ owner: userEmail }, { sharedWith: userEmail }] })
+        .toArray();
 }
 
-// --------------EXPENSE FUNCTIONS--------------
-
-async function addExpense(expense) {
-    await expenseCollection.insertOne(expense);
+async function createSheet(name, owner) {
+    const sheet = {
+        name,
+        owner,
+        sharedWith: [],
+        createdAt: new Date(),
+    };
+    const result = await sheetCollection.insertOne(sheet);
+    return { ...sheet, id: result.insertedId.toString() };
 }
 
-
-async function getExpensesBySheetId(sheetId) {
-    return expenseCollection.find({ sheetId: sheetId }).toArray();
+async function renameSheet(sheetId, newName, userEmail) {
+    const { ObjectId } = require('mongodb');
+    const result = await sheetCollection.updateOne(
+        { _id: new ObjectId(sheetId), owner: userEmail },
+        { $set: { name: newName } }
+    );
+    return result.modifiedCount > 0;
 }
 
-async function updateExpense(expense) {
-    await expenseCollection.updateOne({ _id: expense.id }, { $set: expense });
+async function deleteSheet(sheetId, userEmail) {
+    const { ObjectId } = require('mongodb');
+    const result = await sheetCollection.deleteOne({
+        _id: new ObjectId(sheetId),
+        owner: userEmail,
+    });
+    // Also remove all expenses for that sheet
+    if (result.deletedCount > 0) {
+        await expenseCollection.deleteMany({ sheetId });
+    }
+    return result.deletedCount > 0;
 }
 
-async function deleteExpense(id) {
-    await expenseCollection.deleteOne({ _id: id });
+async function shareSheet(sheetId, ownerEmail, targetEmail) {
+    const { ObjectId } = require('mongodb');
+    const result = await sheetCollection.updateOne(
+        { _id: new ObjectId(sheetId), owner: ownerEmail },
+        { $addToSet: { sharedWith: targetEmail } }
+    );
+    return result.modifiedCount > 0;
 }
 
+// ── Expenses ──────────────────────────────────────────────────────────────────
 
-// --------------SHEET FUNCTIONS--------------
-
-async function getSheetsByUserId(userId) {
-    return sheetCollection.find({ owner: userId }).toArray();
-
+async function getExpenses(sheetId) {
+    return expenseCollection
+        .find({ sheetId })
+        .sort({ createdAt: -1 })
+        .toArray()
+        .then(docs => docs.map(normalizeId));
 }
 
-async function addSheet(sheet) {
-    return sheetCollection.insertOne(sheet);
+async function createExpense({ date, description, amount, category, sheetId }) {
+    const expense = {
+        date,
+        description,
+        amount: Number(amount),
+        category,
+        sheetId,
+        createdAt: new Date(),
+    };
+    const result = await expenseCollection.insertOne(expense);
+    return normalizeId({ ...expense, _id: result.insertedId });
 }
 
-async function updateSheet(sheet) {
-    await sheetCollection.updateOne({ _id: sheet.id }, { $set: sheet });
+async function updateExpense(expenseId, fields) {
+    const { ObjectId } = require('mongodb');
+    // Prevent overwriting protected fields
+    const { _id, sheetId, createdAt, ...safeFields } = fields;
+    if (safeFields.amount !== undefined) safeFields.amount = Number(safeFields.amount);
+
+    const result = await expenseCollection.findOneAndUpdate(
+        { _id: new ObjectId(expenseId) },
+        { $set: safeFields },
+        { returnDocument: 'after' }
+    );
+    return result ? normalizeId(result) : null;
 }
 
-async function deleteSheet(id) {
-    await sheetCollection.deleteOne({ _id: id });
+async function deleteExpense(expenseId) {
+    const { ObjectId } = require('mongodb');
+    const result = await expenseCollection.deleteOne({ _id: new ObjectId(expenseId) });
+    return result.deletedCount > 0;
 }
 
-async function shareSheet(sheetId, targetUserId) {
-    await sheetCollection.updateOne({ _id: sheetId }, { $addToSet: { sharedWith: targetUserId } });
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+// Convert MongoDB _id to plain string `id` so the frontend never sees ObjectId
+function normalizeId(doc) {
+    if (!doc) return doc;
+    const { _id, ...rest } = doc;
+    return { id: _id.toString(), ...rest };
 }
 
-async function renameSheet(sheetId, newName) {
-    await sheetCollection.updateOne({ _id: sheetId }, { $set: { name: newName } });
-}
-module.exports = { getUser,
+module.exports = {
+    // auth
+    getUser,
     getUserByToken,
-    addUser,
-    updateUser,
-    updateUserRemoveAuth,
-    addExpense,
-    getExpensesBySheetId,
-    getSheetsByUserId,
-    addSheet};
+    createUser,
+    updateUserToken,
+    // sheets
+    getSheets,
+    createSheet,
+    renameSheet,
+    deleteSheet,
+    shareSheet,
+    // expenses
+    getExpenses,
+    createExpense,
+    updateExpense,
+    deleteExpense,
+};
