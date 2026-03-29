@@ -10,3 +10,5 @@
 /httpRequests/
 
 startup/service/node_modules
+
+service/dbConfig.json
