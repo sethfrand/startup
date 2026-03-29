@@ -19,7 +19,7 @@ export default function Expenses(props) {
             }
         }
         loadExpenses();
-    }, []);
+    }, [props.currentSheet]); // reruns when sheet changes
 
     async function handleAddExpense() {
         const response = await fetch('/api/expenses', {
@@ -29,15 +29,14 @@ export default function Expenses(props) {
                 description: 'New Expense',
                 amount: 0,
                 category: '',
-                sheetId: Number(props.currentSheet),
+                sheetId: props.currentSheet, // fixed: no Number() conversion
             }),
             headers: {'Content-type': 'application/json; charset=UTF-8'},
             credentials: 'include',
-
-        })
+        });
         if (response?.status === 200) {
             const newExpense = await response.json();
-            setExpenses([newExpense, ...expenses]);  // missing!
+            setExpenses([newExpense, ...expenses]);
         }
     }
 
@@ -61,9 +60,11 @@ export default function Expenses(props) {
         setCategories(updatedCategories);
         localStorage.setItem(`categories_${props.currentSheet}`, JSON.stringify(updatedCategories));
     }
+
     if (!props.currentSheet) {
         return <main><p>Please select a sheet from <a href="/Sheets">All Sheets</a> first.</p></main>;
     }
+
     return (
         <main>
             <h1>Expenses</h1>
