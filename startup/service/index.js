@@ -4,16 +4,15 @@ const express = require('express');
 const uuid = require('uuid');
 const {response} = require("express");
 const app = express();
+const DB = require('./database.js');
+
 require('dotenv').config();
 
 const authCookieName = 'token';
 
-let users = [];
-let sheets = [];
-let expenses = []
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 // Logger - must be FIRST so all requests are logged
 app.use((req, res, next) => {
@@ -34,37 +33,46 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
+
+// ---------- AUTHENTICATION  ----------
+
+
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-    if (await findUser('email', req.body.email)) {
-        res.status(409).send({ msg: 'Existing user' });
-    } else {
-        const user = await createUser(req.body.email, req.body.password);
 
+    const existing = await DB.getUser(req.body.email);
+    if (user && await bcrypt.compare(req.body.password, user.password)) {
+        user.token = uuid.v4();
+        await DB.updateUserToken(user)
         setAuthCookie(res, user.token);
         res.send({ email: user.email });
+    }else{
+        res.status(401).send({ msg: 'Unauthorized' });
     }
+
 });
 
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-    const user = await findUser('email', req.body.email);
+    const user = await DB.getUser('email', req.body.email);
     if (user) {
         if (await bcrypt.compare(req.body.password, user.password)) {
             user.token = uuid.v4();
+            await DB.updateUser(user)
             setAuthCookie(res, user.token);
             res.send({ email: user.email });
-            return;
         }
-    }
+    }else{
     res.status(401).send({ msg: 'Unauthorized' });
+    }
+
 });
 
 // DeleteAuth logout a user
 apiRouter.delete('/auth/logout', async (req, res) => {
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const user = await DB.getUserByToken('token', req.cookies[authCookieName]);
     if (user) {
-        delete user.token;
+        await DB.removeUserToken(token);
     }
     res.clearCookie(authCookieName);
     res.status(204).end();
@@ -74,7 +82,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 const verifyAuth = async (req, res, next) => {
     console.log('cookies:', req.cookies);
     console.log('auth cookie:', req.cookies[authCookieName]);
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const user = await DB.getUserByToken('token', req.cookies[authCookieName]);
     console.log('user found:', user);
     if (user) {
         req.user = user;
@@ -85,37 +93,37 @@ const verifyAuth = async (req, res, next) => {
 };
 
 
-// SHEETS
+//-----------------------SHEETS
 
-apiRouter.post('/sheets', verifyAuth, (req, res) => {
-    const newSheet = {
-        ...req.body,
-        owner: req.user.email,
-        id: Date.now()
-    };
-    sheets.push(newSheet);
-    res.send(newSheet);
+// Get all sheets for logged-in user
+apiRouter.get('/sheets', verifyAuth, async (req, res) => {
+    const sheets = await DB.getSheetsByUserId(req.user.email);
+    // Normalize _id to id for the frontend
+    res.send(sheets.map(s => ({ id: s._id.toString(), name: s.name, owner: s.owner })));
 });
 
-apiRouter.get('/sheets', verifyAuth, (req, res) => {
-    const storedSheets = sheets.filter(s => s.owner === req.user.email);
-    res.send(storedSheets);
-});
-
-apiRouter.delete('/sheets/:id', verifyAuth, (req, res) => {
-    sheets = sheets.filter(s => s.id !== Number(req.params.id));
+// Delete sheet
+apiRouter.delete('/sheets/:id', verifyAuth, async (req, res) => {
+    await DB.deleteSheet(req.params.id);
     res.status(204).end();
-})
-
-apiRouter.post('/sheets/:id/rename', verifyAuth, (req, res) => {
-    const sheetToUpdate = sheets.find(s => s.id === Number(req.params.id));
-    if (sheetToUpdate) {
-        sheetToUpdate.name = req.body.name;
-        res.send(sheetToUpdate);
-    } else {
-        res.status(404).send({ msg: 'Sheet not found' });
-    }
 });
+
+// Rename sheet
+apiRouter.post('/sheets/:id/rename', verifyAuth, async (req, res) => {
+    await DB.renameSheet(req.params.id, req.body.name);
+    res.send({ msg: 'Renamed' });
+});
+
+// Share sheet
+apiRouter.post('/sheets/:id/share', verifyAuth, async (req, res) => {
+    const targetUser = await DB.getUser(req.body.targetEmail);
+    if (!targetUser) {
+        return res.status(404).send({ msg: 'User not found' });
+    }
+    await DB.shareSheet(req.params.id, req.body.targetEmail);
+    res.send({ msg: 'Shared' });
+});
+
 
 // EXPENSES
 

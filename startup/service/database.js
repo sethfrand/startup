@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-const config = require('./dbConfig.json');
+const config = require('../dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
@@ -37,8 +37,12 @@ async function createUser(email, passwordHash, token) {
     return user;
 }
 
-async function updateUserToken(email, token) {
+async function updateUser(email, token) {
     await userCollection.updateOne({ email }, { $set: { token } });
+}
+
+async function removeAuthToken(email) {
+    await userCollection.updateOne({ email }, { $unset: { token: "" } });
 }
 
 // ── Sheets ────────────────────────────────────────────────────────────────────
@@ -149,7 +153,7 @@ module.exports = {
     getUser,
     getUserByToken,
     createUser,
-    updateUserToken,
+    updateUser,
     // sheets
     getSheets,
     createSheet,
