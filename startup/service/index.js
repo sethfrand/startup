@@ -127,27 +127,29 @@ apiRouter.post('/sheets/:id/share', verifyAuth, async (req, res) => {
 
 // EXPENSES
 
-apiRouter.get('/expenses', verifyAuth, (req, res) => {
-    const storedExpenses = expenses.filter(e => e.sheetId === Number(req.query.sheetId));
-    res.send(storedExpenses);
-    console.log('query sheetId:', req.query.sheetId, typeof req.query.sheetId);
-    console.log('stored sheetIds:', expenses.map(e => ({id: e.sheetId, type: typeof e.sheetId})));
+// Get expenses for a sheet
+apiRouter.get('/expenses', verifyAuth, async (req, res) => {
+    const expenses = await DB.getExpensesBySheetId(req.query.sheetId);
+    // Normalize _id to id for the frontend
+    res.send(expenses.map(e => ({ ...e, id: e._id.toString(), _id: undefined })));
 });
 
-apiRouter.post('/expenses', verifyAuth, (req, res) => {
-    const newExpense = { ...req.body, expense: req.user.email, id: Date.now()};
-    expenses.push(newExpense);
-    res.send(newExpense);
+// Create expense
+apiRouter.post('/expenses', verifyAuth, async (req, res) => {
+    const result = await DB.addExpense({
+        date: req.body.date,
+        description: req.body.description,
+        amount: Number(req.body.amount),
+        category: req.body.category,
+        sheetId: req.body.sheetId,
+    });
+    res.send({ id: result.insertedId.toString(), ...req.body });
 });
 
-apiRouter.post('/expenses/:id/update', verifyAuth, (req, res) => {
-    const expenseToUpdate = expenses.find(e => e.id === Number(req.params.id));
-    if (expenseToUpdate) {
-        Object.assign(expenseToUpdate, req.body);
-        res.send(expenseToUpdate);
-    } else {
-        res.status(404).send({ msg: 'Expense not found' });
-    }
+// Update expense
+apiRouter.post('/expenses/:id/update', verifyAuth, async (req, res) => {
+    await DB.updateExpense({ id: req.params.id, ...req.body });
+    res.send({ id: req.params.id, ...req.body });
 });
 
 // Default error handler
