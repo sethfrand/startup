@@ -58,11 +58,11 @@ async function getExpensesBySheetId(sheetId) {
 }
 
 async function updateExpense(expense) {
-    await expenseCollection.updateOne({ id: expense.id }, { $set: expense });
+    await expenseCollection.updateOne({ _id: expense.id }, { $set: expense });
 }
 
 async function deleteExpense(id) {
-    await expenseCollection.deleteOne({ id: id });
+    await expenseCollection.deleteOne({ _id: id });
 }
 
 
@@ -77,6 +77,21 @@ async function addSheet(sheet) {
     return sheetCollection.insertOne(sheet);
 }
 
+async function updateSheet(sheet) {
+    await sheetCollection.updateOne({ _id: sheet.id }, { $set: sheet });
+}
+
+async function deleteSheet(id) {
+    await sheetCollection.deleteOne({ _id: id });
+}
+
+async function shareSheet(sheetId, targetUserId) {
+    await sheetCollection.updateOne({ _id: sheetId }, { $addToSet: { sharedWith: targetUserId } });
+}
+
+async function renameSheet(sheetId, newName) {
+    await sheetCollection.updateOne({ _id: sheetId }, { $set: { name: newName } });
+}
 module.exports = { getUser,
     getUserByToken,
     addUser,
