@@ -534,3 +534,16 @@ curl http://localhost:3000
 
 
 [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
+
+
+WEBSOCKETS 
+
+-- Allows for real-time communication between the client and the server.
+```jsx
+const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+const socket = new WebSocket(`${protocol}://${window.location.host}`);
+```
+ws - websockets
+wss - secure websockets
+
+** debugging websockets **
