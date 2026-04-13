@@ -18,11 +18,6 @@ export default function App() {
     const [showNotifications, setShowNotifications] = useState(false);
     const socketRef = useRef(null);
 
-    const mockedNotifications = [
-        `${username} has added a new expense to ${currentSheet}`,
-        `${username} shared a sheet with you`,
-    ]
-
     useEffect(() => {
         if (!username) return;
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
