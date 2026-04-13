@@ -28,7 +28,9 @@ export default function App() {
 
         socketRef.current.onmessage = (message) => {
             const data = JSON.parse(message.data);
-            setNotifications(prevNotifications => [...prevNotifications, data.message]);
+            if (!data.targetEmail || data.targetEmail === username){
+                setNotifications(prevNotifications => [...prevNotifications, data.message]);
+            }
         }
         return () => {
             socketRef.current.close();
@@ -113,7 +115,7 @@ export default function App() {
         <Routes>
             <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
             <Route path="/Overview" element={<Overview username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
-            <Route path="/Expenses" element={<Expenses username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
+            <Route path="/Expenses" element={<Expenses username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet} socketRef={socketRef}/>} exact/>
             <Route path="/Sheets"
                    element=
                        {<Sheets username={username}
