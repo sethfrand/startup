@@ -7,6 +7,7 @@ export default function Expenses(props) {
     const [expenses, setExpenses] = useState([]);
     const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
     const [newCategory, setNewCategory] = useState('');
+    const [savedExpenses, setSavedExpenses] = useState({});
 
     useEffect(() => {
         async function loadExpenses() {
@@ -37,13 +38,6 @@ export default function Expenses(props) {
         if (response?.status === 200) {
             const newExpense = await response.json();
             setExpenses([newExpense, ...expenses]);
-
-            if (props.socketRef?.current?.readyState === 1) {
-                props.socketRef.current.send(JSON.stringify({
-                    type: 'expense_added',
-                    message: `A new expense was added to sheet ${props.currentSheetName} by ${props.username}: ${newExpense.description} for $${newExpense.amount}`,
-                }));
-            }
         }
     }
 
@@ -58,6 +52,19 @@ export default function Expenses(props) {
             const updatedExpenses = [...expenses];
             updatedExpenses[index][field] = value;
             setExpenses(updatedExpenses);
+            setSavedExpenses(prev => ({ ...prev, [index]: false }));
+        }
+    }
+
+    async function handleSaveExpense(index) {
+        const expense = expenses[index];
+        setSavedExpenses(prev => ({ ...prev, [index]: true }));
+
+        if (props.socketRef?.current?.readyState === 1) {
+            props.socketRef.current.send(JSON.stringify({
+                type: 'expense_added',
+                message: `${props.username} added "${expense.description}" for $${expense.amount} to sheet "${props.currentSheetName}"`,
+            }));
         }
     }
 
@@ -82,6 +89,7 @@ export default function Expenses(props) {
                     <th>Description</th>
                     <th>Amount</th>
                     <th>Category</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -116,6 +124,14 @@ export default function Expenses(props) {
                                     <option key={cat} value={cat}>{cat}</option>
                                 ))}
                             </select>
+                        </td>
+                        <td>
+                            <button
+                                className={`btn btn-sm ${savedExpenses[index] ? 'btn-success' : 'btn-primary'}`}
+                                onClick={() => handleSaveExpense(index)}
+                            >
+                                {savedExpenses[index] ? 'Saved ✓' : 'Save'}
+                            </button>
                         </td>
                     </tr>
                 ))}
