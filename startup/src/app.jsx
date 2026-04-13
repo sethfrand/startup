@@ -23,10 +23,13 @@ export default function App() {
         socketRef.current = new WebSocket(`${protocol}://${window.location.host}/ws`);
         window.__socketRef = socketRef;
 
-        socketRef.current.onmessage = (message) => {
-            const data = JSON.parse(message.data);
+        socketRef.current.onmessage = async (message) => {
+            const text = message.data instanceof Blob
+                ? await message.data.text()
+                : message.data;
+            const data = JSON.parse(text);
             if (!data.targetEmail || data.targetEmail === username) {
-                setNotifications(prevNotifications => [...prevNotifications, data.message]);
+                setNotifications(prev => [...prev, data.message]);
             }
         };
         return () => {

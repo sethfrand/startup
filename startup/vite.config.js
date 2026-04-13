@@ -12,6 +12,10 @@ export default defineConfig({
           proxy.on('proxyReq', (_, req) => console.log('proxying:', req.method, req.url));
           proxy.on('proxyRes', (res, req) => console.log('proxy response:', res.statusCode, req.url));
         }
+      },
+      '/ws': {
+        target: 'ws://localhost:4000',
+        ws: true,
       }
     }
   }
