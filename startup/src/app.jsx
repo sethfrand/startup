@@ -23,7 +23,7 @@ export default function App() {
         if (!username) return;
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         const port = window.location.port;
-        socketRef.current = new WebSocket(`${protocol}://${window.location.host}${port ? `:${port}` : ''}/ws`);
+        socketRef.current = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
 
         socketRef.current.onmessage = (message) => {
@@ -114,7 +114,13 @@ export default function App() {
             <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
             <Route path="/Overview" element={<Overview username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
             <Route path="/Expenses" element={<Expenses username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
-            <Route path="/Sheets" element={<Sheets username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
+            <Route path="/Sheets"
+                   element=
+                       {<Sheets username={username}
+                                currentSheet={currentSheet}
+                                setCurrentSheet={setCurrentSheet}
+                                socketRef={socketRef}
+                       />} exact/>
             <Route path="/*" element={<NotFound/>}/>
         </Routes>
         <footer>
