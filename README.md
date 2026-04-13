@@ -137,8 +137,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [X] **Stores data in MongoDB** - Added functionality to have the expenses and sheets saved in MongoDB. They are no longer stored in local storage. Currentsheet is saved in localstorage. 
+- [X] **Stores credentials in MongoDB** - Added functionality to have the users username and password saved in MongoDB. They are no longer stored in local storage. Username is also saved in localstorage to display the name that the user is logged in as (ex. Logged in as ....)
 
 ## 🚀 WebSocket deliverable
 
