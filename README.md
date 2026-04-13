@@ -144,8 +144,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - Used the peerProxy from Simon to create a websocket that listens for connections and forwards messages to different clients.
+- [x] **Frontend makes WebSocket connection** - app.jsx opens a WebSocket connection on login using wss/ws depending on protocol, with Vite proxying /ws to the Express server on port 4000.
+- [x] **Data sent over WebSocket connection** - a notification is sent when someone shares a sheet with a user or adds an expense to a sheet that the users share. 
+- [ ] **WebSocket data displayed** - Websocket notifications appear in the notification center (the bell). There is a red notification for unread messages. 
+- [ ] **Application is fully functional** - User can now create, edit and manage sheets. There are also real-time notifications. 
