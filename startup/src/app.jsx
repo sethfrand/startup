@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css';
 import { FaBell } from 'react-icons/fa';
@@ -29,6 +29,23 @@ export default function App() {
             setNotifications(prevState => [...prevState, RandomNotification])
         },5000)
         return () => clearInterval(interval);},[username, currentSheet])
+
+    let port = window.location.port;
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    socketRef.current = new WebSocket(`${protocol}://${window.location.hostname}:${port}/ws`);
+    this.socket.onopen = (event) => {
+        this.receiveEvent(new EventMessage('Simon', GameEvent.System, { msg: 'connected' }));
+    };
+    this.socket.onclose = (event) => {
+        this.receiveEvent(new EventMessage('Simon', GameEvent.System, { msg: 'disconnected' }));
+    };
+    this.socket.onmessage = async (msg) => {
+        try {
+            const event = JSON.parse(await msg.data.text());
+            this.receiveEvent(event);
+        } catch {}
+
+
     {/*
     function handleLogout() {
         localStorage.removeItem('userName');
