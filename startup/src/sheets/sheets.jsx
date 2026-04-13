@@ -2,6 +2,16 @@ import React, {useEffect, useState} from 'react';
 import './sheets.css';
 import {useNavigate} from "react-router-dom";
 
+function sendWhenReady(socket, data) {
+    if (!socket) return;
+    if (socket.readyState === 1) {
+        socket.send(data);
+    } else if (socket.readyState === 0) {
+        socket.addEventListener('open', () => socket.send(data), { once: true });
+    }
+    // readyState 2 (CLOSING) or 3 (CLOSED) — drop silently
+}
+
 export default function Sheets(props) {
     const [sheets, setSheets] = useState([]);
     const [sharingId, setSharingId] = useState(null);
@@ -17,7 +27,7 @@ export default function Sheets(props) {
             if (response?.status === 200) {
                 const data = await response.json();
                 if (data.length === 0) {
-                    handleCreateSheet('1st Sheet')
+                    handleCreateSheet('1st Sheet');
                 } else {
                     setSheets(data);
                 }
@@ -39,22 +49,16 @@ export default function Sheets(props) {
             const updatedSheets = [...sheets, newSheet];
             setSheets(updatedSheets);
             localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
-        } else {
-
         }
     }
 
     async function handleRenameSheet(id, newName) {
-        console.log('renaming sheet with id:', id, typeof id);
         const response = await fetch(`/api/sheets/${id}/rename`, {
             method: 'post',
             body: JSON.stringify({name: newName}),
             headers: {'Content-type': 'application/json; charset=UTF-8'},
             credentials: 'include',
         });
-        console.log('response status:', response.status);
-        const text = await response.text();
-        console.log('response body:', text);
         if (response?.status === 200) {
             const updatedSheets = sheets.map(sheet =>
                 sheet.id === id ? {...sheet, name: newName} : sheet
@@ -70,11 +74,10 @@ export default function Sheets(props) {
             credentials: 'include',
         });
         if (response?.status === 204) {
-
-        const updatedSheets = sheets.filter(sheet => sheet.id !== id);
-        setSheets(updatedSheets);
-        localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
-    }
+            const updatedSheets = sheets.filter(sheet => sheet.id !== id);
+            setSheets(updatedSheets);
+            localStorage.setItem(`sheets_${props.username}`, JSON.stringify(updatedSheets));
+        }
     }
 
     async function handleShareSheet(id) {
@@ -85,7 +88,8 @@ export default function Sheets(props) {
             credentials: 'include',
         });
         if (response?.status === 200) {
-            props.socketRef.current?.send(JSON.stringify({
+            sendWhenReady(props.socketRef.current, JSON.stringify({
+                targetEmail: shareUsername,
                 message: `${props.username} shared a sheet with you`
             }));
             setSharingId(null);
@@ -95,10 +99,9 @@ export default function Sheets(props) {
         }
     }
 
-
     function handleEditSheet(id) {
-        localStorage.setItem('currentSheet', id)
-        props.setCurrentSheet(id)
+        localStorage.setItem('currentSheet', id);
+        props.setCurrentSheet(id);
         navigate('/Expenses');
     }
 

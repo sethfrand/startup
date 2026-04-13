@@ -19,7 +19,7 @@ export default function Expenses(props) {
             }
         }
         loadExpenses();
-    }, [props.currentSheet]); // reruns when sheet changes
+    }, [props.currentSheet]);
 
     async function handleAddExpense() {
         const response = await fetch('/api/expenses', {
@@ -38,10 +38,12 @@ export default function Expenses(props) {
             const newExpense = await response.json();
             setExpenses([newExpense, ...expenses]);
 
-            props.socketRef.current.send(JSON.stringify({
-                type: 'expense_added',
-                message: `A new expense was added to sheet ${props.currentSheet} by ${props.username}: ${newExpense.description} for $${newExpense.amount}`,
-            }));
+            if (props.socketRef?.current?.readyState === 1) {
+                props.socketRef.current.send(JSON.stringify({
+                    type: 'expense_added',
+                    message: `A new expense was added to sheet ${props.currentSheet} by ${props.username}: ${newExpense.description} for $${newExpense.amount}`,
+                }));
+            }
         }
     }
 
