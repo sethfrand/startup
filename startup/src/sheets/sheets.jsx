@@ -77,21 +77,22 @@ export default function Sheets(props) {
     }
     }
 
-    function handleShareSheet(id) {
-        const targetUser = localStorage.getItem(`password_${shareUsername}`);
-        if (!targetUser) {
-            alert('User does not exist!');
-            return;
+    async function handleShareSheet(id) {
+        const response = await fetch(`/api/sheets/${id}/share`, {
+            method: 'post',
+            body: JSON.stringify({targetEmail: shareUsername}),
+            headers: {'Content-type': 'application/json; charset=UTF-8'},
+            credentials: 'include',
+        });
+        if (response?.status === 200) {
+            props.socketRef.current?.send(JSON.stringify({
+                message: `${props.username} shared a sheet with you`
+            }));
+            setSharingId(null);
+            setShareUsername('');
+        } else {
+            alert('User not found or sharing failed.');
         }
-        const sheetToShare = sheets.find(sheet => sheet.id === id);
-        const theirSheets = JSON.parse(localStorage.getItem(`sheets_${shareUsername}`)) || [];
-        const alreadyShared = theirSheets.some(s => s.id === id);
-        if (!alreadyShared) {
-            const updatedTheirSheets = [...theirSheets, {...sheetToShare, sharedWith: []}];
-            localStorage.setItem(`sheets_${shareUsername}`, JSON.stringify(updatedTheirSheets));
-        }
-        setSharingId(null);
-        setShareUsername('');
     }
 
 
