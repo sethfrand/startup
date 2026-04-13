@@ -18,6 +18,7 @@ export default function App() {
     const [showNotifications, setShowNotifications] = useState(false);
     const socketRef = useRef(null);
 
+
     useEffect(() => {
         if (!username) return;
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';

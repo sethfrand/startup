@@ -29,7 +29,7 @@ export default function Expenses(props) {
                 description: 'New Expense',
                 amount: 0,
                 category: '',
-                sheetId: props.currentSheet, // fixed: no Number() conversion
+                sheetId: props.currentSheet,
             }),
             headers: {'Content-type': 'application/json; charset=UTF-8'},
             credentials: 'include',
@@ -37,6 +37,11 @@ export default function Expenses(props) {
         if (response?.status === 200) {
             const newExpense = await response.json();
             setExpenses([newExpense, ...expenses]);
+
+            props.socketRef.current.send(JSON.stringify({
+                type: 'expense_added',
+                message: `A new expense was added to sheet ${props.currentSheet} by ${props.username}: ${newExpense.description} for $${newExpense.amount}`,
+            }));
         }
     }
 
