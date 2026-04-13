@@ -16,6 +16,7 @@ export default function App() {
     const [currentSheet, setCurrentSheet] = useState(localStorage.getItem('currentSheet') || null);
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
+    const socketRef = useRef(null);
 
     const mockedNotifications = [
         `${username} has added a new expense to ${currentSheet}`,
@@ -24,41 +25,19 @@ export default function App() {
 
     useEffect(() => {
         if (!username) return;
-        const interval = setInterval(() => {
-            const RandomNotification = mockedNotifications[Math.floor(Math.random() * mockedNotifications.length)]
-            setNotifications(prevState => [...prevState, RandomNotification])
-        },5000)
-        return () => clearInterval(interval);},[username, currentSheet])
-
-    let port = window.location.port;
-    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-    socketRef.current = new WebSocket(`${protocol}://${window.location.hostname}:${port}/ws`);
-    this.socket.onopen = (event) => {
-        this.receiveEvent(new EventMessage('Simon', GameEvent.System, { msg: 'connected' }));
-    };
-    this.socket.onclose = (event) => {
-        this.receiveEvent(new EventMessage('Simon', GameEvent.System, { msg: 'disconnected' }));
-    };
-    this.socket.onmessage = async (msg) => {
-        try {
-            const event = JSON.parse(await msg.data.text());
-            this.receiveEvent(event);
-        } catch {}
+        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+        const port = window.location.port;
+        socketRef.current = new WebSocket(`${protocol}://${window.location.host}${port ? `:${port}` : ''}/ws`);
 
 
-    {/*
-    function handleLogout() {
-        localStorage.removeItem('userName');
-        localStorage.removeItem('currentSheet');
-        localStorage.removeItem(`sheets_${username}`);
-        localStorage.removeItem(`expenses_${currentSheet}`);
-        localStorage.removeItem(`categories_${currentSheet}`);
-        localStorage.removeItem(`budget_${username}`);
-        setUsername('');
-        setCurrentSheet(null);
-        window.location.href = '/'; // always last!
-    }
-    */}
+        socketRef.current.onmessage = (message) => {
+            const data = JSON.parse(message.data);
+            setNotifications(prevNotifications => [...prevNotifications, data.message]);
+        }
+        return () => {
+            socketRef.current.close();
+        };
+    }, [username]);
 
     async function handleLogout() {
         await fetch('/api/auth/logout', { method: 'delete' });
