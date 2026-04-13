@@ -16,6 +16,7 @@ export default function App() {
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
     const socketRef = useRef(null);
+    const currentSheetName = localStorage.getItem('currentSheetName') || '';
 
     useEffect(() => {
         if (!username) return;
@@ -113,7 +114,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Login onLogin={setUsername}/>} exact/>
                     <Route path="/Overview" element={<Overview username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet}/>} exact/>
-                    <Route path="/Expenses" element={<Expenses username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet} socketRef={socketRef}/>} exact/>
+                    <Route path="/Expenses" element={<Expenses username={username} currentSheet={currentSheet} setCurrentSheet={setCurrentSheet} currentSheetName={currentSheetName} socketRef={socketRef}/>} exact/>
                     <Route path="/Sheets"
                            element={
                                <Sheets username={username}

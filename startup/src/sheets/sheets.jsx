@@ -99,8 +99,9 @@ export default function Sheets(props) {
         }
     }
 
-    function handleEditSheet(id) {
+    function handleEditSheet(id, name) {
         localStorage.setItem('currentSheet', id);
+        localStorage.setItem('currentSheetName',name);
         props.setCurrentSheet(id);
         navigate('/Expenses');
     }
@@ -119,7 +120,7 @@ export default function Sheets(props) {
                         </button>
                         <button className="btn btn-secondary btn-sm" onClick={() => setSharingId(sheet.id)}>Share
                         </button>
-                        <button className="btn btn-primary btn-sm" onClick={() => handleEditSheet(sheet.id)}>Edit
+                        <button className="btn btn-primary btn-sm" onClick={() => handleEditSheet(sheet.id, sheet.name)}>Edit
                         </button>
                         {sharingId === sheet.id && (
                             <div className="d-flex gap-2">

@@ -41,7 +41,7 @@ export default function Expenses(props) {
             if (props.socketRef?.current?.readyState === 1) {
                 props.socketRef.current.send(JSON.stringify({
                     type: 'expense_added',
-                    message: `A new expense was added to sheet ${props.currentSheet} by ${props.username}: ${newExpense.description} for $${newExpense.amount}`,
+                    message: `A new expense was added to sheet ${props.currentSheetName} by ${props.username}: ${newExpense.description} for $${newExpense.amount}`,
                 }));
             }
         }
